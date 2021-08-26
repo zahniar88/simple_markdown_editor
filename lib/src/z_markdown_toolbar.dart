@@ -186,8 +186,13 @@ class ZMarkdownToolbar extends StatelessWidget {
                         SnackBar(content: Text("Please input url")),
                       );
                     } else {
+                      if (!value
+                          .contains(RegExp(r'https?:\/\/(www.)?([^\s]+)'))) {
+                        value = "http://" + value;
+                      }
+
                       _toolbarAction(
-                          "[enter link description here]($value)", "");
+                          "[enter link description here", "]($value)");
                     }
                   },
                 ),
@@ -256,8 +261,13 @@ class ZMarkdownToolbar extends StatelessWidget {
                         SnackBar(content: Text("Please input image url")),
                       );
                     } else {
+                      if (!value
+                          .contains(RegExp(r'https?:\/\/(www.)?([^\s]+)'))) {
+                        value = "http://" + value;
+                      }
+
                       _toolbarAction(
-                          "![enter image description here]($value)", "");
+                          "![enter image description here", "]($value)");
                     }
                   },
                 ),
