@@ -51,17 +51,6 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (widget._enableToolbar)
-          ZMarkdownToolbar(
-            controller: _internalController,
-            isPreview: _isPreview,
-            onPreviewChanged: () {
-              _isPreview = _isPreview ? false : true;
-              setState(() {});
-            },
-            focusNode: _internalFocus,
-            emojiConvert: widget._emojiConvert,
-          ),
         !_isPreview
             ? Expanded(
                 child: Padding(
@@ -92,6 +81,17 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
                   data: _internalController.text,
                 ),
               ),
+        if (widget._enableToolbar)
+          ZMarkdownToolbar(
+            controller: _internalController,
+            isPreview: _isPreview,
+            onPreviewChanged: () {
+              _isPreview = _isPreview ? false : true;
+              setState(() {});
+            },
+            focusNode: _internalFocus,
+            emojiConvert: widget._emojiConvert,
+          ),
       ],
     );
   }
