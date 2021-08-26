@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ZMarkdownEditor(
               controller: _controller,
               enableToolbar: true,
-              emojiConvert: false,
+              emojiConvert: true,
             ),
           ),
         ],

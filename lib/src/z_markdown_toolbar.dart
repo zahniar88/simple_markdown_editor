@@ -12,12 +12,10 @@ class ZMarkdownToolbar extends StatelessWidget {
     required bool isPreview,
     bool emojiConvert = true,
     required FocusNode focusNode,
-    required ValueChanged<String> onToolbarChanged,
   })  : this._onPreviewChanged = onPreviewChanged,
         this._controller = controller,
         this._isPreview = isPreview,
         this._focusNode = focusNode,
-        this._onToolbarChanged = onToolbarChanged,
         this._emojiConvert = emojiConvert,
         super(key: key);
 
@@ -25,7 +23,6 @@ class ZMarkdownToolbar extends StatelessWidget {
   final TextEditingController _controller;
   final bool _isPreview;
   final FocusNode _focusNode;
-  final ValueChanged<String> _onToolbarChanged;
   final bool _emojiConvert;
 
   @override
@@ -283,7 +280,5 @@ class ZMarkdownToolbar extends StatelessWidget {
         offset: selection.baseOffset + left.length + middle.length,
       ),
     );
-
-    _onToolbarChanged.call(newTextValue);
   }
 }
