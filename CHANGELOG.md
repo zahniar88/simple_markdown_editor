@@ -6,3 +6,7 @@
 
 * support emoji convert in live editor
 * null safety
+
+## 0.1.2
+
+* change toolbar position on bottom

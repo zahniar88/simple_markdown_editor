@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageNetworkMarkdown extends StatelessWidget {
@@ -13,26 +12,44 @@ class ImageNetworkMarkdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: uri,
-      progressIndicatorBuilder: (context, url, progress) => Center(
-        child: Container(
-          width: 300,
-          height: 220,
-          color: Colors.grey[200],
-          alignment: Alignment.center,
-          child: CircularProgressIndicator(
-            value: progress.progress,
-          ),
+    return Image.network(
+      uri.toString(),
+      loadingBuilder: _loadingBuilder,
+      errorBuilder: _errorBuilder,
+    );
+  }
+
+  Widget _errorBuilder(
+    BuildContext context,
+    Object error,
+    StackTrace? stackTrace,
+  ) {
+    return Center(
+      child: Container(
+        width: 300,
+        height: 220,
+        color: Colors.grey[100],
+        alignment: Alignment.center,
+        child: Text(
+          error.toString(),
         ),
       ),
-      errorWidget: (context, url, error) => Center(
-        child: Container(
-          width: 300,
-          height: 220,
-          color: Colors.grey[200],
-          alignment: Alignment.center,
-          child: Text(error.toString()),
+    );
+  }
+
+  Widget _loadingBuilder(
+    BuildContext context,
+    Object child,
+    ImageChunkEvent? loadingProgress,
+  ) {
+    return Center(
+      child: Container(
+        width: 300,
+        height: 220,
+        color: Colors.grey[100],
+        alignment: Alignment.center,
+        child: CircularProgressIndicator(
+          value: loadingProgress?.cumulativeBytesLoaded.toDouble(),
         ),
       ),
     );

@@ -45,42 +45,49 @@ class ZMarkdownToolbar extends StatelessWidget {
 
             // show only if _isPreview is false
             if (!_isPreview) ...[
+              // bold
               ToolbarItem(
                 icon: FontAwesomeIcons.bold,
                 onPressed: () {
                   _toolbarAction("**", "**");
                 },
               ),
+              // italic
               ToolbarItem(
                 icon: FontAwesomeIcons.italic,
                 onPressed: () {
                   _toolbarAction("*", "*");
                 },
               ),
+              // strikethrough
               ToolbarItem(
                 icon: FontAwesomeIcons.strikethrough,
                 onPressed: () {
                   _toolbarAction("~~", "~~");
                 },
               ),
+              // heading
               ToolbarItem(
                 icon: FontAwesomeIcons.heading,
                 onPressed: () {
                   _toolbarAction("## ", "");
                 },
               ),
+              // link
               ToolbarItem(
                 icon: FontAwesomeIcons.link,
                 onPressed: () {
                   _showModalInputLink(context);
                 },
               ),
+              // image
               ToolbarItem(
                 icon: FontAwesomeIcons.image,
                 onPressed: () {
                   _showModalInputImage(context);
                 },
               ),
+              // emoji
               ToolbarItem(
                 icon: FontAwesomeIcons.solidSmile,
                 onPressed: () {
@@ -104,16 +111,25 @@ class ZMarkdownToolbar extends StatelessWidget {
                   );
                 },
               ),
+              // blockquote
               ToolbarItem(
                 icon: FontAwesomeIcons.quoteLeft,
                 onPressed: () {
                   _toolbarAction("> ", "");
                 },
               ),
+              // code
               ToolbarItem(
                 icon: FontAwesomeIcons.code,
                 onPressed: () {
                   _toolbarAction("`", "`");
+                },
+              ),
+              // line
+              ToolbarItem(
+                icon: FontAwesomeIcons.rulerHorizontal,
+                onPressed: () {
+                  _toolbarAction("___\n", "");
                 },
               ),
             ],

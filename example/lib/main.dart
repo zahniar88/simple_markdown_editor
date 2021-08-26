@@ -39,16 +39,18 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text("Markdown Editor"),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ZMarkdownEditor(
-              controller: _controller,
-              enableToolbar: true,
-              emojiConvert: true,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: ZMarkdownEditor(
+                controller: _controller,
+                enableToolbar: true,
+                emojiConvert: true,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
