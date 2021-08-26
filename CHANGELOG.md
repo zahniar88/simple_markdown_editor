@@ -10,3 +10,9 @@
 ## 0.1.2
 
 * change toolbar position on bottom
+
+## 0.1.3
+
+* bug fixing on 0.1.2 emojiConvert
+* add search fitur on emoji
+* added auto close property after selecting emoji
