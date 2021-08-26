@@ -1,3 +1,4 @@
+import 'package:example/second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_markdown_editor/simple_markdown_editor.dart';
 
@@ -38,6 +39,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Markdown Editor"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SecondScreen(
+                    data: _controller.text,
+                  ),
+                ),
+              );
+            },
+            icon: Icon(Icons.view_compact),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Column(
