@@ -7,23 +7,18 @@ import 'package:simple_markdown_editor/src/toolbar_item.dart';
 class ZMarkdownToolbar extends StatelessWidget {
   ZMarkdownToolbar({
     Key? key,
-    required VoidCallback onPreviewChanged,
-    required TextEditingController controller,
-    required bool isPreview,
-    bool emojiConvert = true,
-    required FocusNode focusNode,
-  })  : this._onPreviewChanged = onPreviewChanged,
-        this._controller = controller,
-        this._isPreview = isPreview,
-        this._focusNode = focusNode,
-        this._emojiConvert = emojiConvert,
-        super(key: key);
+    required this.onPreviewChanged,
+    required this.controller,
+    required this.isPreview,
+    this.emojiConvert = true,
+    required this.focusNode,
+  }) : super(key: key);
 
-  final VoidCallback _onPreviewChanged;
-  final TextEditingController _controller;
-  final bool _isPreview;
-  final FocusNode _focusNode;
-  final bool _emojiConvert;
+  final VoidCallback onPreviewChanged;
+  final TextEditingController controller;
+  final bool isPreview;
+  final FocusNode focusNode;
+  final bool emojiConvert;
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +32,14 @@ class ZMarkdownToolbar extends StatelessWidget {
           children: [
             ToolbarItem(
               icon:
-                  _isPreview ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
+                  isPreview ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
               onPressed: () {
-                _onPreviewChanged.call();
+                onPreviewChanged.call();
               },
             ),
 
             // show only if _isPreview is false
-            if (!_isPreview) ...[
+            if (!isPreview) ...[
               // bold
               ToolbarItem(
                 icon: FontAwesomeIcons.bold,
@@ -101,7 +96,7 @@ class ZMarkdownToolbar extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return EmojiList(
-                        emojiConvert: _emojiConvert,
+                        emojiConvert: emojiConvert,
                         onChanged: (String emot) {
                           Navigator.pop(context);
                           _toolbarAction("$emot", "");
@@ -281,16 +276,16 @@ class ZMarkdownToolbar extends StatelessWidget {
 
   // toolbar action
   void _toolbarAction(String left, String right) async {
-    _focusNode.requestFocus();
+    focusNode.requestFocus();
     await Future.delayed(Duration(milliseconds: 1));
-    final currentTextValue = _controller.value.text;
-    final selection = _controller.selection;
+    final currentTextValue = controller.value.text;
+    final selection = controller.selection;
     final middle = selection.textInside(currentTextValue);
     final newTextValue = selection.textBefore(currentTextValue) +
         '$left$middle$right' +
         selection.textAfter(currentTextValue);
 
-    _controller.value = _controller.value.copyWith(
+    controller.value = controller.value.copyWith(
       text: newTextValue,
       selection: TextSelection.collapsed(
         offset: selection.baseOffset + left.length + middle.length,

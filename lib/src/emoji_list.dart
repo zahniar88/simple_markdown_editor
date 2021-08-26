@@ -4,15 +4,13 @@ import 'emoji_parser.dart';
 class EmojiList extends StatelessWidget {
   EmojiList({
     Key? key,
-    ValueChanged<String>? onChanged,
-    bool emojiConvert = true,
-  })  : this._onChanged = onChanged,
-        this._emojiConvert = emojiConvert,
-        super(key: key);
+    this.onChanged,
+    this.emojiConvert = true,
+  }) : super(key: key);
 
   final _parser = EmojiParser();
-  final bool _emojiConvert;
-  final ValueChanged<String>? _onChanged;
+  final bool emojiConvert;
+  final ValueChanged<String>? onChanged;
   final List<String> _emoticons = [
     ":smiley:",
     ":blush:",
@@ -106,8 +104,8 @@ class EmojiList extends StatelessWidget {
                   .map(
                     (emot) => TextButton(
                       onPressed: () {
-                        _onChanged?.call(
-                          (_emojiConvert) ? _parser.emojify(emot) : emot,
+                        onChanged?.call(
+                          (emojiConvert) ? _parser.emojify(emot) : emot,
                         );
                       },
                       child: Text(

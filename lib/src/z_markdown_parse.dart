@@ -9,27 +9,31 @@ typedef ZMarkdownTapTagCallback = void Function(
 );
 
 class ZMarkdownParse extends StatelessWidget {
-  const ZMarkdownParse({
+  /// Creates a scrolling widget that parses and displays Markdown.
+  ZMarkdownParse({
     Key? key,
-    required String data,
-    MarkdownTapLinkCallback? onTapLink,
-    ZMarkdownTapTagCallback? onTapHastag,
-    ZMarkdownTapTagCallback? onTapMention,
-  })  : this._data = data,
-        this._onTapLink = onTapLink,
-        this._onTapHastag = onTapHastag,
-        this._onTapMention = onTapMention,
-        super(key: key);
+    required this.data,
+    this.onTapLink,
+    this.onTapHastag,
+    this.onTapMention,
+  }) : super(key: key);
 
-  final String _data;
-  final MarkdownTapLinkCallback? _onTapLink;
-  final ZMarkdownTapTagCallback? _onTapHastag;
-  final ZMarkdownTapTagCallback? _onTapMention;
+  /// The string markdown to display.
+  final String data;
+
+  /// Called when the user taps a link.
+  final MarkdownTapLinkCallback? onTapLink;
+
+  /// Called when the user taps a hashtag.
+  final ZMarkdownTapTagCallback? onTapHastag;
+
+  /// Called when the user taps a mention.
+  final ZMarkdownTapTagCallback? onTapMention;
 
   @override
   Widget build(BuildContext context) {
     return Markdown(
-      data: _data,
+      data: data,
       selectable: true,
       padding: EdgeInsets.all(10),
       extensionSet: md.ExtensionSet(
@@ -48,15 +52,15 @@ class ZMarkdownParse extends StatelessWidget {
         ColoredMentionSyntax(),
       ],
       builders: {
-        "hastag": ColoredHastagElementBuilder(_onTapHastag),
-        "mention": ColoredMentionElementBuilder(_onTapMention),
+        "hastag": ColoredHastagElementBuilder(onTapHastag),
+        "mention": ColoredMentionElementBuilder(onTapMention),
       },
       styleSheet: MarkdownStyleSheet(
         code: TextStyle(
           color: Colors.purple,
         ),
       ),
-      onTapLink: _onTapLink,
+      onTapLink: onTapLink,
       imageBuilder: (Uri uri, String? title, String? alt) {
         return ImageNetworkMarkdown(
           uri: uri.toString(),

@@ -4,35 +4,88 @@ import 'package:simple_markdown_editor/src/emoji_parser.dart';
 import 'package:simple_markdown_editor/src/z_markdown_toolbar.dart';
 
 class ZMarkdownEditor extends StatefulWidget {
-  const ZMarkdownEditor({
+  /// create a widget to edit markdown
+  ///
+  /// ZMarkdownEditor is built on the basis of TextFormField
+  ZMarkdownEditor({
     Key? key,
-    bool enableToolbar = true,
-    TextEditingController? controller,
-    ScrollController? scrollController,
-    ValueChanged<String>? onChanged,
-    TextStyle? style,
-    bool emojiConvert = false,
-    VoidCallback? onTap,
-    FormFieldValidator<String?>? validator,
-  })  : this._enableToolbar = enableToolbar,
-        this._controller = controller,
-        this._scrollController = scrollController,
-        this._onChanged = onChanged,
-        this._style = style,
-        this._emojiConvert = emojiConvert,
-        this._onTap = onTap,
-        this._validator = validator,
-        super(key: key);
+    this.controller,
+    this.scrollController,
+    this.onChanged,
+    this.style,
+    this.emojiConvert = false,
+    this.onTap,
+    this.validator,
+    this.enableToolBar = false,
+  }) : super(key: key);
 
-  /// external parameter
-  final bool _enableToolbar;
-  final TextEditingController? _controller;
-  final ScrollController? _scrollController;
-  final ValueChanged<String>? _onChanged;
-  final TextStyle? _style;
-  final bool _emojiConvert;
-  final VoidCallback? _onTap;
-  final FormFieldValidator<String?>? _validator;
+  /// For enable toolbar options
+  ///
+  /// if false, toolbar widget will not display
+  final bool enableToolBar;
+
+  /// Controls the text being edited.
+  ///
+  /// If null, this widget will create its own [TextEditingController] and
+  /// initialize its [TextEditingController.text] with [initialValue].
+  final TextEditingController? controller;
+
+  /// Creates a [FormField] that contains a [TextField].
+  ///
+  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
+  /// null, then a [TextEditingController] will be constructed automatically and its text will be
+  /// initialized to [initialValue] or the empty string.
+  ///
+  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
+  /// the constructor.
+  final ScrollController? scrollController;
+
+  /// Creates a [FormField] that contains a [TextField].
+  ///
+  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
+  /// null, then a [TextEditingController] will be constructed automatically and its text will be
+  /// initialized to [initialValue] or the empty string.
+  ///
+  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
+  ///  the constructor.
+  final ValueChanged<String>? onChanged;
+
+  /// Creates a [FormField] that contains a [TextField].
+  ///
+  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
+  /// null, then a [TextEditingController] will be constructed automatically and its text will be
+  ///
+  /// initialized to [initialValue] or the empty string.
+  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
+  /// the constructor.
+  final TextStyle? style;
+
+  /// to enable auto convert emoji
+  ///
+  /// if true, the string will be automatically converted to emoji
+  ///
+  /// example: :smiley: => 😃
+  final bool emojiConvert;
+
+  /// Creates a [FormField] that contains a [TextField].
+  ///
+  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
+  /// null, then a [TextEditingController] will be constructed automatically and its text will be
+  ///
+  /// initialized to [initialValue] or the empty string.
+  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
+  /// the constructor.
+  final VoidCallback? onTap;
+
+  /// Creates a [FormField] that contains a [TextField].
+  ///
+  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
+  /// null, then a [TextEditingController] will be constructed automatically and its text will be
+  /// initialized to [initialValue] or the empty string.
+  ///
+  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
+  /// the constructor.
+  final FormFieldValidator<String?>? validator;
 
   @override
   _ZMarkdownEditorState createState() => _ZMarkdownEditorState();
@@ -47,8 +100,8 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
 
   @override
   void initState() {
-    _internalController = widget._controller != null
-        ? widget._controller!
+    _internalController = widget.controller != null
+        ? widget.controller!
         : TextEditingController();
     _internalFocus = FocusNode();
     _isPreview = false;
@@ -68,10 +121,10 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
                     maxLines: null,
                     focusNode: _internalFocus,
                     controller: _internalController,
-                    scrollController: widget._scrollController,
+                    scrollController: widget.scrollController,
                     onChanged: _onEditorChange,
-                    onTap: widget._onTap,
-                    validator: widget._validator,
+                    onTap: widget.onTap,
+                    validator: widget.validator,
                     autocorrect: false,
                     keyboardType: TextInputType.multiline,
                     toolbarOptions: ToolbarOptions(
@@ -83,7 +136,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
                     decoration: InputDecoration.collapsed(
                       hintText: "Type here. . .",
                     ),
-                    style: widget._style,
+                    style: widget.style,
                   ),
                 ),
               )
@@ -94,7 +147,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
               ),
 
         // show toolbar
-        if (widget._enableToolbar)
+        if (widget.enableToolBar)
           ZMarkdownToolbar(
             controller: _internalController,
             isPreview: _isPreview,
@@ -103,7 +156,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
               setState(() {});
             },
             focusNode: _internalFocus,
-            emojiConvert: widget._emojiConvert,
+            emojiConvert: widget.emojiConvert,
           ),
       ],
     );
@@ -112,27 +165,32 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
   void _onEditorChange(String value) {
     String newValue = value;
 
-    if (widget._emojiConvert) {
+    if (widget.emojiConvert) {
       newValue = value.replaceAllMapped(
         RegExp(r'\:[^\s]+\:'),
         (match) => _emojiParser.emojify(match[0]!),
       );
+      var currentPosition = _internalController.selection;
+
+      if (value.length > newValue.length) {
+        currentPosition = TextSelection.collapsed(
+          offset: newValue.length,
+        );
+      }
 
       _internalController.value = _internalController.value.copyWith(
         text: newValue,
-        selection: TextSelection.collapsed(
-          offset: newValue.length,
-        ),
+        selection: currentPosition,
       );
     }
 
-    widget._onChanged?.call(newValue);
+    widget.onChanged?.call(newValue);
   }
 
   @override
   void dispose() {
-    widget._scrollController?.dispose();
-    widget._controller?.dispose();
+    widget.scrollController?.dispose();
+    widget.controller?.dispose();
     _internalController.dispose();
     _internalFocus.dispose();
     super.dispose();
