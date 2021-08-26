@@ -12,6 +12,7 @@ class ZMarkdownToolbar extends StatelessWidget {
     required this.isPreview,
     this.emojiConvert = true,
     required this.focusNode,
+    this.autoCloseAfterSelectEmoji = true,
   }) : super(key: key);
 
   final VoidCallback onPreviewChanged;
@@ -19,6 +20,7 @@ class ZMarkdownToolbar extends StatelessWidget {
   final bool isPreview;
   final FocusNode focusNode;
   final bool emojiConvert;
+  final bool autoCloseAfterSelectEmoji;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,7 @@ class ZMarkdownToolbar extends StatelessWidget {
                       return EmojiList(
                         emojiConvert: emojiConvert,
                         onChanged: (String emot) {
-                          Navigator.pop(context);
+                          if (autoCloseAfterSelectEmoji) Navigator.pop(context);
                           _toolbarAction("$emot", "");
                         },
                       );

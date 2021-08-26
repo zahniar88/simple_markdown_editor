@@ -1,126 +1,207 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'emoji_parser.dart';
 
-class EmojiList extends StatelessWidget {
+class EmojiList extends StatefulWidget {
   EmojiList({
     Key? key,
     this.onChanged,
     this.emojiConvert = true,
   }) : super(key: key);
 
-  final _parser = EmojiParser();
   final bool emojiConvert;
   final ValueChanged<String>? onChanged;
+
+  @override
+  _EmojiListState createState() => _EmojiListState();
+}
+
+class _EmojiListState extends State<EmojiList> {
+  final _parser = EmojiParser();
+
+  String _search = "";
   final List<String> _emoticons = [
-    ":smiley:",
     ":blush:",
-    ":heart_eyes:",
-    ":angry:",
-    ":sweat_smile:",
-    ":grin:",
-    ":kissing_heart:",
-    ":stuck_out_tongue:",
-    ":joy:",
-    ":wink:",
-    ":sleepy:",
+    ":smirk:",
     ":kissing_closed_eyes:",
+    ":satisfied:",
+    ":stuck_out_tongue_winking_eye:",
     ":kissing:",
     ":sleeping:",
+    ":anguished:",
+    ":confused:",
+    ":unamused:",
+    ":disappointed_relieved:",
     ":disappointed:",
+    ":cold_sweat:",
     ":sob:",
+    ":scream:",
+    ":angry:",
+    ":sleepy:",
     ":sunglasses:",
     ":innocent:",
-    ":yum:",
-    ":open_mouth:",
-    ":tired_face:",
-    ":cry:",
-    ":triumph:",
-    ":expressionless:",
-    ":relieved:",
-    ":worried:",
-    ":neutral_face:",
-    ":dizzy_face:",
-    ":stuck_out_tongue_winking_eye:",
+    ":smiley:",
+    ":heart_eyes:",
     ":flushed:",
+    ":grin:",
+    ":stuck_out_tongue_closed_eyes:",
+    ":kissing_smiling_eyes:",
+    ":worried:",
+    ":open_mouth:",
+    ":hushed:",
+    ":sweat_smile:",
+    ":weary:",
+    ":confounded:",
+    ":persevere:",
+    ":joy:",
+    ":rage:",
+    ":yum:",
+    ":dizzy_face:",
+    ":neutral_face:",
+    ":relaxed:",
+    ":kissing_heart:",
+    ":relieved:",
+    ":wink:",
+    ":grinning:",
+    ":stuck_out_tongue:",
+    ":frowning:",
     ":grimacing:",
+    ":expressionless:",
+    ":sweat:",
+    ":pensive:",
+    ":fearful:",
+    ":cry:",
+    ":astonished:",
+    ":tired_face:",
+    ":triumph:",
     ":mask:",
     ":no_mouth:",
-    ":no_good:",
-    ":weary:",
-    ":rage:",
     ":heart:",
     ":broken_heart:",
-    ":sweat_drops:",
-    ":pray:",
-    ":muscle:",
-    ":raised_hands:",
-    ":punch:",
+    ":star:",
+    ":star2:",
+    ":exclamation:",
+    ":question:",
     ":fire:",
+    ":shit:",
+    ":thumbsup:",
+    ":thumbsdown:",
+    ":punch:",
+    ":raised_hands:",
     ":clap:",
+    ":pray:",
+    ":ok_hand:",
+    ":muscle:",
+    ":dash:",
+    ":zzz:",
+    ":sweat_drops:",
+    ":wave:",
+    ":point_up:",
     ":point_down:",
     ":point_left:",
     ":point_right:",
-    ":point_up:",
-    ":-1:",
-    ":+1:",
-    ":exclamation:",
-    ":grey_exclamation:",
-    ":grey_question:",
-    ":question:",
-    ":boom:",
-    ":star:",
-    ":shit:",
-    ":zzz:",
-    ":star2:",
-    ":dash:",
+    ":x:",
+    ":white_check_mark:",
+    ":negative_squared_cross_mark:",
+    ":100:",
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
       padding: EdgeInsets.all(30),
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.height * 0.5,
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Emoticons (${_emoticons.length})",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Emoticons (${_emoticons.length})",
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
-            SizedBox(
-              height: 20,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              vertical: 15,
+              horizontal: 20,
             ),
-            Wrap(
-              runSpacing: 10,
-              spacing: 10,
-              children: _emoticons
-                  .map(
-                    (emot) => TextButton(
-                      onPressed: () {
-                        onChanged?.call(
-                          (emojiConvert) ? _parser.emojify(emot) : emot,
-                        );
-                      },
-                      child: Text(
-                        _parser.emojify(emot),
-                        style: TextStyle(
-                          fontSize: 32,
-                        ),
-                      ),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  FontAwesomeIcons.search,
+                  size: 17,
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration.collapsed(
+                      hintText: "Find emoji",
                     ),
-                  )
-                  .toList(),
+                    onChanged: (String value) {
+                      _search = value;
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          _listEmots(context),
+        ],
       ),
     );
+  }
+
+  Widget _listEmots(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.45,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 7,
+        ),
+        itemCount: _emoticons
+            .where((element) =>
+                element.toLowerCase().contains(_search.toLowerCase()))
+            .length,
+        itemBuilder: (context, index) {
+          var emot = _emoticons
+              .where((element) =>
+                  element.toLowerCase().contains(_search.toLowerCase()))
+              .elementAt(index);
+
+          return TextButton(
+            onPressed: () {
+              widget.onChanged?.call(
+                (widget.emojiConvert) ? _parser.emojify(emot) : emot,
+              );
+            },
+            child: Text(
+              _parser.emojify(emot),
+              style: TextStyle(
+                fontSize: 30,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _emoticons.clear();
+    super.dispose();
   }
 }

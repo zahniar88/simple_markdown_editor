@@ -17,6 +17,7 @@ class ZMarkdownEditor extends StatefulWidget {
     this.onTap,
     this.validator,
     this.enableToolBar = false,
+    this.autoCloseAfterSelectEmoji = true,
   }) : super(key: key);
 
   /// For enable toolbar options
@@ -87,6 +88,10 @@ class ZMarkdownEditor extends StatefulWidget {
   /// the constructor.
   final FormFieldValidator<String?>? validator;
 
+  /// if you set it to false,
+  /// the modal will not disappear after you select the emoji
+  final bool autoCloseAfterSelectEmoji;
+
   @override
   _ZMarkdownEditorState createState() => _ZMarkdownEditorState();
 }
@@ -151,6 +156,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
           ZMarkdownToolbar(
             controller: _internalController,
             isPreview: _isPreview,
+            autoCloseAfterSelectEmoji: widget.autoCloseAfterSelectEmoji,
             onPreviewChanged: () {
               _isPreview = _isPreview ? false : true;
               setState(() {});
