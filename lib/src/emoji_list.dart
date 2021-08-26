@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_emoji/flutter_emoji.dart';
+import 'emoji_parser.dart';
 
 class EmojiList extends StatelessWidget {
   EmojiList({
     Key? key,
     ValueChanged<String>? onChanged,
+    bool emojiConvert = true,
   })  : this._onChanged = onChanged,
+        this._emojiConvert = emojiConvert,
         super(key: key);
 
   final _parser = EmojiParser();
+  final bool _emojiConvert;
   final ValueChanged<String>? _onChanged;
   final List<String> _emoticons = [
     ":smiley:",
@@ -104,7 +106,9 @@ class EmojiList extends StatelessWidget {
                   .map(
                     (emot) => TextButton(
                       onPressed: () {
-                        _onChanged?.call(emot);
+                        _onChanged?.call(
+                          (_emojiConvert) ? _parser.emojify(emot) : emot,
+                        );
                       },
                       child: Text(
                         _parser.emojify(emot),

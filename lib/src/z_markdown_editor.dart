@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_markdown_editor/simple_markdown_editor.dart';
+import 'package:simple_markdown_editor/src/emoji_parser.dart';
 import 'package:simple_markdown_editor/src/z_markdown_toolbar.dart';
 
 class ZMarkdownEditor extends StatefulWidget {
@@ -10,11 +11,13 @@ class ZMarkdownEditor extends StatefulWidget {
     ScrollController? scrollController,
     ValueChanged<String>? onChanged,
     TextStyle? style,
+    bool emojiConvert = false,
   })  : this._enableToolbar = enableToolbar,
         this._controller = controller,
         this._scrollController = scrollController,
         this._onChanged = onChanged,
         this._style = style,
+        this._emojiConvert = emojiConvert,
         super(key: key);
 
   /// external parameter
@@ -23,6 +26,7 @@ class ZMarkdownEditor extends StatefulWidget {
   final ScrollController? _scrollController;
   final ValueChanged<String>? _onChanged;
   final TextStyle? _style;
+  final bool _emojiConvert;
 
   @override
   _ZMarkdownEditorState createState() => _ZMarkdownEditorState();
@@ -34,6 +38,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
   late String _textPreviewResult;
   late TextEditingController _internalController;
   late FocusNode _internalFocus;
+  late EmojiParser _parser;
 
   @override
   void initState() {
@@ -41,6 +46,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
     _internalFocus = FocusNode();
     _isPreview = false;
     _textPreviewResult = "";
+    _parser = EmojiParser();
     super.initState();
   }
 
@@ -64,6 +70,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
               setState(() {});
             },
             focusNode: _internalFocus,
+            emojiConvert: widget._emojiConvert,
           ),
         !_isPreview
             ? Expanded(
@@ -76,12 +83,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
                         ? widget._controller
                         : _internalController,
                     scrollController: widget._scrollController,
-                    onChanged: (String value) {
-                      widget._onChanged?.call(value);
-                      setState(() {
-                        _textPreviewResult = value;
-                      });
-                    },
+                    onChanged: _onEditorChange,
                     autocorrect: false,
                     keyboardType: TextInputType.multiline,
                     toolbarOptions: ToolbarOptions(
@@ -104,6 +106,31 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
               ),
       ],
     );
+  }
+
+  void _onEditorChange(String value) {
+    String newValue = value;
+
+    // convert emoji string example => :smiley = 😃
+    if (widget._emojiConvert) {
+      newValue = value.replaceAllMapped(
+          RegExp(r'\:[^\s]+\:'), (match) => _parser.emojify(match[0]!));
+      var editController = widget._controller != null
+          ? widget._controller!
+          : _internalController;
+
+      editController.value = editController.value.copyWith(
+        text: newValue,
+        selection: TextSelection.collapsed(
+          offset: newValue.length,
+        ),
+      );
+    }
+
+    widget._onChanged?.call(newValue);
+    setState(() {
+      _textPreviewResult = newValue;
+    });
   }
 
   @override

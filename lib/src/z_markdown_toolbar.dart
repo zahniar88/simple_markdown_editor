@@ -10,6 +10,7 @@ class ZMarkdownToolbar extends StatelessWidget {
     required VoidCallback onPreviewChanged,
     required TextEditingController controller,
     required bool isPreview,
+    bool emojiConvert = true,
     required FocusNode focusNode,
     required ValueChanged<String> onToolbarChanged,
   })  : this._onPreviewChanged = onPreviewChanged,
@@ -17,6 +18,7 @@ class ZMarkdownToolbar extends StatelessWidget {
         this._isPreview = isPreview,
         this._focusNode = focusNode,
         this._onToolbarChanged = onToolbarChanged,
+        this._emojiConvert = emojiConvert,
         super(key: key);
 
   final VoidCallback _onPreviewChanged;
@@ -24,6 +26,7 @@ class ZMarkdownToolbar extends StatelessWidget {
   final bool _isPreview;
   final FocusNode _focusNode;
   final ValueChanged<String> _onToolbarChanged;
+  final bool _emojiConvert;
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +97,7 @@ class ZMarkdownToolbar extends StatelessWidget {
                     context: context,
                     builder: (context) {
                       return EmojiList(
+                        emojiConvert: _emojiConvert,
                         onChanged: (String emot) {
                           Navigator.pop(context);
                           _toolbarAction("$emot", "");

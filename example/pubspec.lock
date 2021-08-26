@@ -125,13 +125,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
-  flutter_emoji:
-    dependency: transitive
-    description:
-      name: flutter_emoji
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.1+1"
   flutter_markdown:
     dependency: transitive
     description:
@@ -276,7 +269,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.1.0"
+    version: "0.1.1"
   sky_engine:
     dependency: transitive
     description: flutter
