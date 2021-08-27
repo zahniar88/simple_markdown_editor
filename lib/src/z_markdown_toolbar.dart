@@ -32,6 +32,7 @@ class ZMarkdownToolbar extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
+            // preview
             ToolbarItem(
               icon:
                   isPreview ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
@@ -70,18 +71,31 @@ class ZMarkdownToolbar extends StatelessWidget {
                   _toolbarAction("## ", "");
                 },
               ),
+              // unorder list
+              ToolbarItem(
+                icon: FontAwesomeIcons.listUl,
+                onPressed: () {
+                  _toolbarAction("- ", "");
+                },
+              ),
               // link
               ToolbarItem(
                 icon: FontAwesomeIcons.link,
                 onPressed: () {
-                  _showModalInputLink(context);
+                  if (_checkHasSelection())
+                    _toolbarAction("[enter link description here](", ")");
+                  else
+                    _showModalInput(context, "[enter link description here");
                 },
               ),
               // image
               ToolbarItem(
                 icon: FontAwesomeIcons.image,
                 onPressed: () {
-                  _showModalInputImage(context);
+                  if (_checkHasSelection())
+                    _toolbarAction("![enter image description here](", ")");
+                  else
+                    _showModalInput(context, "![enter image description here");
                 },
               ),
               // emoji
@@ -136,8 +150,8 @@ class ZMarkdownToolbar extends StatelessWidget {
     );
   }
 
-  // show modal input link
-  Future<dynamic> _showModalInputLink(BuildContext context) {
+  // show modal input
+  Future<dynamic> _showModalInput(BuildContext context, String leftText) {
     return showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
@@ -150,14 +164,16 @@ class ZMarkdownToolbar extends StatelessWidget {
           margin: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          padding: EdgeInsets.symmetric(horizontal: 30)
-              .copyWith(top: 30, bottom: 60),
+          padding: EdgeInsets.symmetric(horizontal: 30).copyWith(
+            top: 30,
+            bottom: 60,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Please provide a URL for your link.",
+                "Please provide a URL here.",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -181,9 +197,19 @@ class ZMarkdownToolbar extends StatelessWidget {
                   onFieldSubmitted: (String value) {
                     Navigator.pop(context);
 
+                    /// check if the user entered an empty input
                     if (value.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please input url")),
+                        SnackBar(
+                          content: Text(
+                            "Please input url",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          backgroundColor: Colors.red.withOpacity(0.8),
+                          duration: Duration(milliseconds: 700),
+                        ),
                       );
                     } else {
                       if (!value
@@ -191,8 +217,7 @@ class ZMarkdownToolbar extends StatelessWidget {
                         value = "http://" + value;
                       }
 
-                      _toolbarAction(
-                          "[enter link description here", "]($value)");
+                      _toolbarAction(leftText, "]($value)");
                     }
                   },
                 ),
@@ -211,79 +236,11 @@ class ZMarkdownToolbar extends StatelessWidget {
     );
   }
 
-  // show modal input link
-  Future<dynamic> _showModalInputImage(BuildContext context) {
-    return showModalBottomSheet(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(30),
-        ),
-      ),
-      context: context,
-      builder: (context) {
-        return Container(
-          margin: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 30)
-              .copyWith(top: 30, bottom: 60),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "Please provide a URL for your image.",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 30, bottom: 5),
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextFormField(
-                  autocorrect: false,
-                  decoration: InputDecoration.collapsed(
-                    hintText: "Type link here",
-                  ),
-                  enableInteractiveSelection: true,
-                  onFieldSubmitted: (String value) {
-                    Navigator.pop(context);
-
-                    if (value.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please input image url")),
-                      );
-                    } else {
-                      if (!value
-                          .contains(RegExp(r'https?:\/\/(www.)?([^\s]+)'))) {
-                        value = "http://" + value;
-                      }
-
-                      _toolbarAction(
-                          "![enter image description here", "]($value)");
-                    }
-                  },
-                ),
-              ),
-              Text(
-                "example: https://example.com/image.jpeg",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  // check if have selection text
+  bool _checkHasSelection() {
+    return (controller.selection.baseOffset -
+            controller.selection.extentOffset) !=
+        0;
   }
 
   // toolbar action
@@ -293,14 +250,43 @@ class ZMarkdownToolbar extends StatelessWidget {
     final currentTextValue = controller.value.text;
     final selection = controller.selection;
     final middle = selection.textInside(currentTextValue);
+    var selectionText = '$left$middle$right';
+    var contentOffset = left.length + middle.length;
+
+    // check if middle text have char \n
+    if (middle.split("\n").length > 1) {
+      final splitData = middle.split("\n");
+      var index = 0;
+      var resetLength = 0;
+
+      selectionText = splitData.map((text) {
+        index++;
+
+        if (text.contains(left) && text.contains(right)) {
+          resetLength += left.length + right.length;
+          return index == splitData.length
+              ? text.replaceFirst(left, "").replaceFirst(right, "")
+              : text.replaceFirst(left, "").replaceFirst(right, "") + "\n";
+        }
+
+        return index == splitData.length
+            ? "$left$text$right"
+            : "$left$text$right\n";
+      }).join();
+
+      contentOffset = (left.length * index) +
+          (right.length * index) +
+          (middle.length - (resetLength * 2));
+    }
+
     final newTextValue = selection.textBefore(currentTextValue) +
-        '$left$middle$right' +
+        selectionText +
         selection.textAfter(currentTextValue);
 
     controller.value = controller.value.copyWith(
       text: newTextValue,
       selection: TextSelection.collapsed(
-        offset: selection.baseOffset + left.length + middle.length,
+        offset: selection.baseOffset + contentOffset,
       ),
     );
   }

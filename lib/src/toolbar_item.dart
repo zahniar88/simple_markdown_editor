@@ -14,13 +14,20 @@ class ToolbarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(
-        icon,
-        size: 16,
+    return Material(
+      type: MaterialType.transparency,
+      borderRadius: BorderRadius.circular(50),
+      clipBehavior: Clip.antiAlias,
+      child: IconButton(
+        onPressed: onPressed,
+        splashColor: Colors.teal.withOpacity(0.4),
+        highlightColor: Colors.teal.withOpacity(0.4),
+        icon: Icon(
+          icon,
+          size: 16,
+        ),
+        tooltip: tooltip,
       ),
-      tooltip: tooltip,
     );
   }
 }

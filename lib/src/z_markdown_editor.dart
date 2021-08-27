@@ -168,9 +168,11 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
     );
   }
 
+  // on field change
   void _onEditorChange(String value) {
-    String newValue = value;
+    var newValue = value;
 
+    // will run when emoji conversion is active
     if (widget.emojiConvert) {
       newValue = value.replaceAllMapped(
         RegExp(r'\:[^\s]+\:'),
