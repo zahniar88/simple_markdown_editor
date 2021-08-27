@@ -16,3 +16,10 @@
 * bug fixing on 0.1.2 emojiConvert
 * add search fitur on emoji
 * added auto close property after selecting emoji
+
+## 0.1.3+1
+
+* add multiple line formatting and unformatting at once action
+* additional functions on the image and link toolbars if you have selected text. toolbar will not show modal input but will directly format text
+* add toolbar unorder list
+* refactor some repetitive code
