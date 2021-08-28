@@ -174,17 +174,21 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
 
     // will run when emoji conversion is active
     if (widget.emojiConvert) {
-      newValue = value.replaceAllMapped(
-        RegExp(r'\:[^\s]+\:'),
-        (match) => _emojiParser.emojify(match[0]!),
-      );
       var currentPosition = _internalController.selection;
 
-      if (value.length > newValue.length) {
-        currentPosition = TextSelection.collapsed(
-          offset: newValue.length,
-        );
-      }
+      newValue = value.replaceAllMapped(
+        RegExp(r'\:[^\s]+\:'),
+        (match) {
+          var resetOffset = 0;
+          final convert = _emojiParser.emojify(match[0]!);
+
+          resetOffset = match[0]!.length - convert.length;
+          currentPosition = TextSelection.collapsed(
+            offset: currentPosition.baseOffset - resetOffset,
+          );
+          return convert;
+        },
+      );
 
       _internalController.value = _internalController.value.copyWith(
         text: newValue,
