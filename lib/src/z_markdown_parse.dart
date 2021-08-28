@@ -59,6 +59,16 @@ class ZMarkdownParse extends StatelessWidget {
         code: TextStyle(
           color: Colors.purple,
         ),
+        blockquoteDecoration: BoxDecoration(
+          color: Colors.grey[200],
+          border: Border(
+            left: BorderSide(
+              color: Colors.grey,
+              width: 5,
+            ),
+          ),
+        ),
+        blockquotePadding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
       ),
       onTapLink: onTapLink,
       imageBuilder: (Uri uri, String? title, String? alt) {
