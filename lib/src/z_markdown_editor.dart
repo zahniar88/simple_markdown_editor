@@ -6,7 +6,7 @@ import 'package:simple_markdown_editor/src/z_markdown_toolbar.dart';
 class ZMarkdownEditor extends StatefulWidget {
   /// create a widget to edit markdown
   ///
-  /// ZMarkdownEditor is built on the basis of TextFormField
+  /// ZMarkdownEditor is built on the basis of TextField
   ZMarkdownEditor({
     Key? key,
     this.controller,
@@ -15,9 +15,11 @@ class ZMarkdownEditor extends StatefulWidget {
     this.style,
     this.emojiConvert = false,
     this.onTap,
-    this.validator,
     this.enableToolBar = false,
     this.autoCloseAfterSelectEmoji = true,
+    this.textCapitalization = TextCapitalization.sentences,
+    this.readOnly = false,
+    this.cursorColor,
   }) : super(key: key);
 
   /// For enable toolbar options
@@ -27,38 +29,33 @@ class ZMarkdownEditor extends StatefulWidget {
 
   /// Controls the text being edited.
   ///
-  /// If null, this widget will create its own [TextEditingController] and
-  /// initialize its [TextEditingController.text] with [initialValue].
+  /// If null, this widget will create its own [TextEditingController].
   final TextEditingController? controller;
 
-  /// Creates a [FormField] that contains a [TextField].
-  ///
-  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
-  /// null, then a [TextEditingController] will be constructed automatically and its text will be
-  /// initialized to [initialValue] or the empty string.
-  ///
-  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
-  /// the constructor.
   final ScrollController? scrollController;
 
-  /// Creates a [FormField] that contains a [TextField].
+  /// Configures how the platform keyboard will select an uppercase or lowercase keyboard.
   ///
-  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
-  /// null, then a [TextEditingController] will be constructed automatically and its text will be
-  /// initialized to [initialValue] or the empty string.
+  /// Only supports text keyboards, other keyboard types will ignore this configuration. Capitalization is locale-aware.
   ///
-  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
-  ///  the constructor.
+  /// Defaults to [TextCapitalization.none]. Must not be null.
+  ///
+  /// See also:
+  /// * [TextCapitalization], for a description of each capitalization behavior.
+  final TextCapitalization textCapitalization;
+
+  /// See also:
+  ///
+  /// * [inputFormatters], which are called before [onChanged] runs and can validate and change
+  /// ("format") the input value.
+  /// * [onEditingComplete], [onSubmitted]: which are more specialized input change notifications.
   final ValueChanged<String>? onChanged;
 
-  /// Creates a [FormField] that contains a [TextField].
+  /// The style to use for the text being edited.
   ///
-  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
-  /// null, then a [TextEditingController] will be constructed automatically and its text will be
+  /// This text style is also used as the base style for the [decoration].
   ///
-  /// initialized to [initialValue] or the empty string.
-  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
-  /// the constructor.
+  /// If null, defaults to the subtitle1 text style from the current [Theme].
   final TextStyle? style;
 
   /// to enable auto convert emoji
@@ -68,29 +65,43 @@ class ZMarkdownEditor extends StatefulWidget {
   /// example: :smiley: => 😃
   final bool emojiConvert;
 
-  /// Creates a [FormField] that contains a [TextField].
+  /// Called for each distinct tap except for every second tap of a double tap.
   ///
-  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
-  /// null, then a [TextEditingController] will be constructed automatically and its text will be
+  /// The text field builds a [GestureDetector] to handle input events like tap, to trigger focus
+  /// requests, to move the caret, adjust the selection, etc. Handling some of those events by wrapping
+  /// the text field with a competing GestureDetector is problematic.
   ///
-  /// initialized to [initialValue] or the empty string.
-  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
-  /// the constructor.
+  /// To unconditionally handle taps, without interfering with the text field's internal gesture
+  /// detector, provide this callback.
+  ///
+  /// If the text field is created with [enabled] false, taps will not be recognized.
+  /// To be notified when the text field gains or loses the focus, provide a [focusNode] and add a
+  /// listener to that.
+  ///
+  /// To listen to arbitrary pointer events without competing with the text field's internal gesture
+  /// detector, use a [Listener].
   final VoidCallback? onTap;
-
-  /// Creates a [FormField] that contains a [TextField].
-  ///
-  /// When a [controller] is specified, [initialValue] must be null (the default). If [controller] is
-  /// null, then a [TextEditingController] will be constructed automatically and its text will be
-  /// initialized to [initialValue] or the empty string.
-  ///
-  /// For documentation about the various parameters, see the [TextField] class and [new TextField],
-  /// the constructor.
-  final FormFieldValidator<String?>? validator;
 
   /// if you set it to false,
   /// the modal will not disappear after you select the emoji
   final bool autoCloseAfterSelectEmoji;
+
+  /// Whether the text can be changed.
+  ///
+  /// When this is set to true, the text cannot be modified by any shortcut or keyboard operation. The text is still selectable.
+  ///
+  /// Defaults to false. Must not be null.
+  final bool readOnly;
+
+  /// The color of the cursor.
+  ///
+  /// The cursor indicates the current location of text insertion point in the field.
+  ///
+  /// If this is null it will default to the ambient [TextSelectionThemeData.cursorColor]. If that is
+  /// null, and the [ThemeData.platform] is [TargetPlatform.iOS] or [TargetPlatform.macOS] it will use
+  /// [CupertinoThemeData.primaryColor]. Otherwise it will use the value of [ColorScheme.primary] of
+  /// [ThemeData.colorScheme].
+  final Color? cursorColor;
 
   @override
   _ZMarkdownEditorState createState() => _ZMarkdownEditorState();
@@ -122,16 +133,18 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
             ? Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(10),
-                  child: TextFormField(
+                  child: TextField(
                     maxLines: null,
                     focusNode: _internalFocus,
                     controller: _internalController,
                     scrollController: widget.scrollController,
                     onChanged: _onEditorChange,
                     onTap: widget.onTap,
-                    validator: widget.validator,
                     autocorrect: false,
                     keyboardType: TextInputType.multiline,
+                    textCapitalization: widget.textCapitalization,
+                    readOnly: widget.readOnly,
+                    cursorColor: widget.cursorColor,
                     toolbarOptions: ToolbarOptions(
                       copy: true,
                       paste: true,
@@ -152,7 +165,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
               ),
 
         // show toolbar
-        if (widget.enableToolBar)
+        if (widget.enableToolBar && !widget.readOnly)
           ZMarkdownToolbar(
             controller: _internalController,
             isPreview: _isPreview,
@@ -179,14 +192,26 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
       newValue = value.replaceAllMapped(
         RegExp(r'\:[^\s]+\:'),
         (match) {
-          var resetOffset = 0;
-          final convert = _emojiParser.emojify(match[0]!);
+          if (_emojiParser.hasName(match[0]!)) {
+            final convert = _emojiParser.emojify(match[0]!);
+            final resetOffset = match[0]!.length - convert.length;
+            final lastPositionOnMatch =
+                value.indexOf(match[0]!) + match[0]!.length;
+            var minusOffset = 0;
 
-          resetOffset = match[0]!.length - convert.length;
-          currentPosition = TextSelection.collapsed(
-            offset: currentPosition.baseOffset - resetOffset,
-          );
-          return convert;
+            if ((currentPosition.baseOffset - lastPositionOnMatch) < 0) {
+              minusOffset =
+                  (currentPosition.baseOffset - lastPositionOnMatch).abs();
+            }
+
+            //
+            currentPosition = TextSelection.collapsed(
+              offset: currentPosition.baseOffset - resetOffset + minusOffset,
+            );
+            return convert;
+          }
+
+          return match[0]!;
         },
       );
 
