@@ -282,6 +282,12 @@ class ZMarkdownToolbar extends StatelessWidget {
       contentOffset = addLength + (middle.length - (resetLength * 2));
     }
 
+    if (middle.contains(left) && middle.contains(right)) {
+      selectionText = middle.replaceFirst(left, "");
+      selectionText = selectionText.replaceFirst(right, "");
+      contentOffset = middle.length - (left.length + right.length);
+    }
+
     final newTextValue = selection.textBefore(currentTextValue) +
         selectionText +
         selection.textAfter(currentTextValue);
