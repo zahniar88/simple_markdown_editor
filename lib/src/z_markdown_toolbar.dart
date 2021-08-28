@@ -258,9 +258,15 @@ class ZMarkdownToolbar extends StatelessWidget {
       final splitData = middle.split("\n");
       var index = 0;
       var resetLength = 0;
+      var addLength = 0;
 
       selectionText = splitData.map((text) {
         index++;
+        addLength += left.length + right.length;
+
+        if (text.trim().isEmpty) {
+          addLength -= left.length + right.length;
+        }
 
         if (text.contains(left) && text.contains(right)) {
           resetLength += left.length + right.length;
@@ -269,14 +275,11 @@ class ZMarkdownToolbar extends StatelessWidget {
               : text.replaceFirst(left, "").replaceFirst(right, "") + "\n";
         }
 
-        return index == splitData.length
-            ? "$left$text$right"
-            : "$left$text$right\n";
+        final newText = text.trim().isEmpty ? text : "$left$text$right";
+        return index == splitData.length ? newText : "$newText\n";
       }).join();
 
-      contentOffset = (left.length * index) +
-          (right.length * index) +
-          (middle.length - (resetLength * 2));
+      contentOffset = addLength + (middle.length - (resetLength * 2));
     }
 
     final newTextValue = selection.textBefore(currentTextValue) +
