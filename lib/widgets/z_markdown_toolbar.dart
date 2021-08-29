@@ -168,6 +168,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               selection = TextSelection.collapsed(
                 offset: selection.baseOffset + emot.length,
               );
+              focusNode.unfocus();
             }
           },
         );
@@ -187,6 +188,7 @@ class ZMarkdownToolbar extends StatelessWidget {
           top: Radius.circular(30),
         ),
       ),
+      isScrollControlled: true,
       context: context,
       builder: (context) {
         return ModalInputUrl(
