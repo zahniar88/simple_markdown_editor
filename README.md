@@ -5,7 +5,8 @@
 [![undo](https://img.shields.io/pub/v/simple_markdown_editor.svg)](https://pub.dev/packages/simple_markdown_editor)
 
 
-Simple markdown editor library For flutter.
+Simple markdown editor library For flutter. 
+For demo video, you can see it at this url [Demo](https://youtu.be/aYBeXXDoNPo)
 
 ## Usage
 
@@ -74,5 +75,3 @@ Result Editor:
 <img src="pictures/screenshoot.png" alt="drawing" width="200"/>
 
 ___
-
-For demo video, you can see it at this url [Demo](https://youtube.com/)
