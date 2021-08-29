@@ -1,12 +1,21 @@
 # simple_markdown_editor
 
-[![Support Me](https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffe-blue.svg)](https://paypal.me/zahniaradirahman?locale.x=en_US)
+
+[![Support Me](https://img.shields.io/badge/Donate-Paypal-blue.svg)](https://paypal.me/zahniaradirahman?locale.x=en_US)
+[![Support Me](https://img.shields.io/badge/Donate-Saweria-orange.svg)](https://saweria.co/zahniar88)
 [![GitHub stars](https://img.shields.io/github/stars/zahniar88/simple_markdown_editor?color=green)](https://github.com/zahniar88/simple_markdown_editor)
-[![undo](https://img.shields.io/pub/v/simple_markdown_editor.svg)](https://pub.dev/packages/simple_markdown_editor)
+[![undo](https://img.shields.io/pub/v/simple_markdown_editor.svg?color=teal)](https://pub.dev/packages/simple_markdown_editor)
 
 
 Simple markdown editor library For flutter. 
 For demo video, you can see it at this url [Demo](https://youtu.be/aYBeXXDoNPo)
+
+## Features
+- [x] Convert to Bold, Italic, Strikethrough
+- [x] Convert to Code, Quote, Links
+- [x] Convert to Heading (H1, H2, H3, H4, H5, H6) and Links
+- [x] Support multiline convert
+- [x] Support auto convert emoji
 
 ## Usage
 
@@ -72,6 +81,6 @@ ZMarkdownParse(
 
 Result Editor:
 
-<img src="pictures/screenshoot.png" alt="drawing" width="200"/>
+![](pictures/screenshoot.png)
 
 ___
