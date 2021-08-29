@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_markdown_editor/simple_markdown_editor.dart';
-import 'package:simple_markdown_editor/src/emoji_parser.dart';
-import 'package:simple_markdown_editor/src/z_markdown_toolbar.dart';
+import 'package:simple_markdown_editor/src/emoji_input_formater.dart';
+import 'package:simple_markdown_editor/widgets/z_markdown_toolbar.dart';
 
 class ZMarkdownEditor extends StatefulWidget {
   /// create a widget to edit markdown
@@ -112,7 +112,6 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
   late bool _isPreview;
   late TextEditingController _internalController;
   late FocusNode _internalFocus;
-  late EmojiParser _emojiParser;
 
   @override
   void initState() {
@@ -121,7 +120,6 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
         : TextEditingController();
     _internalFocus = FocusNode();
     _isPreview = false;
-    _emojiParser = EmojiParser();
     super.initState();
   }
 
@@ -145,6 +143,10 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
                     textCapitalization: widget.textCapitalization,
                     readOnly: widget.readOnly,
                     cursorColor: widget.cursorColor,
+                    style: widget.style,
+                    inputFormatters: [
+                      if (widget.emojiConvert) EmojiInputFormatter(),
+                    ],
                     toolbarOptions: ToolbarOptions(
                       copy: true,
                       paste: true,
@@ -154,7 +156,6 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
                     decoration: InputDecoration.collapsed(
                       hintText: "Type here. . .",
                     ),
-                    style: widget.style,
                   ),
                 ),
               )
@@ -183,52 +184,14 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
 
   // on field change
   void _onEditorChange(String value) {
-    var newValue = value;
-
-    // will run when emoji conversion is active
-    if (widget.emojiConvert) {
-      var currentPosition = _internalController.selection;
-
-      newValue = value.replaceAllMapped(
-        RegExp(r'\:[^\s]+\:'),
-        (match) {
-          if (_emojiParser.hasName(match[0]!)) {
-            final convert = _emojiParser.emojify(match[0]!);
-            final resetOffset = match[0]!.length - convert.length;
-            final lastPositionOnMatch =
-                value.indexOf(match[0]!) + match[0]!.length;
-            var minusOffset = 0;
-
-            if ((currentPosition.baseOffset - lastPositionOnMatch) < 0) {
-              minusOffset =
-                  (currentPosition.baseOffset - lastPositionOnMatch).abs();
-            }
-
-            //
-            currentPosition = TextSelection.collapsed(
-              offset: currentPosition.baseOffset - resetOffset + minusOffset,
-            );
-            return convert;
-          }
-
-          return match[0]!;
-        },
-      );
-
-      _internalController.value = _internalController.value.copyWith(
-        text: newValue,
-        selection: currentPosition,
-      );
-    }
-
-    widget.onChanged?.call(newValue);
+    widget.onChanged?.call(value);
   }
 
   @override
   void dispose() {
     widget.scrollController?.dispose();
-    widget.controller?.dispose();
     _internalController.dispose();
+    widget.controller?.dispose();
     _internalFocus.dispose();
     super.dispose();
   }

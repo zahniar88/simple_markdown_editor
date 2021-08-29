@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
-import 'package:simple_markdown_editor/src/image_network.dart';
+import 'package:simple_markdown_editor/widgets/image_network.dart';
 
 typedef ZMarkdownTapTagCallback = void Function(
   String name,
