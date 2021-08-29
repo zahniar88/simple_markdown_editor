@@ -58,7 +58,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 icon: FontAwesomeIcons.italic,
                 onPressed: () {
-                  toolbar.action("*", "*");
+                  toolbar.action("_", "_");
                 },
               ),
               // strikethrough
@@ -112,8 +112,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 icon: FontAwesomeIcons.solidSmile,
                 onPressed: () {
-                  TextSelection selection = controller.selection;
-                  _showModalSelectEmoji(context, selection);
+                  _showModalSelectEmoji(context, controller.selection);
                 },
               ),
               // blockquote
@@ -134,7 +133,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 icon: FontAwesomeIcons.rulerHorizontal,
                 onPressed: () {
-                  toolbar.action("___\n", "");
+                  toolbar.action("\n___\n", "");
                 },
               ),
             ],
@@ -161,12 +160,17 @@ class ZMarkdownToolbar extends StatelessWidget {
           onChanged: (String emot) {
             if (autoCloseAfterSelectEmoji) Navigator.pop(context);
 
-            toolbar.action(emot, "", textSelection: selection);
+            var newSelection =
+                (selection.baseOffset < 0 && selection.extentOffset < 0)
+                    ? selection.copyWith(baseOffset: 0, extentOffset: 0)
+                    : selection;
+
+            toolbar.action(emot, "", textSelection: newSelection);
 
             // change selection baseoffset if not auto close emoji
             if (!autoCloseAfterSelectEmoji) {
               selection = TextSelection.collapsed(
-                offset: selection.baseOffset + emot.length,
+                offset: newSelection.baseOffset + emot.length,
               );
               focusNode.unfocus();
             }

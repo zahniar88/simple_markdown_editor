@@ -21,7 +21,11 @@ class Toolbar {
   }
 
   // toolbar action
-  void action(String left, String right, {TextSelection? textSelection}) async {
+  void action(
+    String left,
+    String right, {
+    TextSelection? textSelection,
+  }) async {
     focusNode.requestFocus();
     await Future.delayed(Duration(milliseconds: 1));
 
