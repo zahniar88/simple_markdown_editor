@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ImageNetworkMarkdown extends StatelessWidget {
   const ImageNetworkMarkdown({
@@ -28,10 +29,20 @@ class ImageNetworkMarkdown extends StatelessWidget {
       child: Container(
         width: 300,
         height: 220,
-        color: Colors.grey[100],
+        color: Colors.grey[200],
         alignment: Alignment.center,
-        child: Text(
-          error.toString(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(FontAwesomeIcons.exclamationTriangle),
+            SizedBox(height: 20),
+            Text(
+              "Failed Load Image",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );
