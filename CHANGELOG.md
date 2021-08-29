@@ -24,3 +24,7 @@
 * add toolbar unorder list
 * refactor some repetitive code
 * fix emoji auto convert issue
+
+## 0.1.4+1
+
+* major update
