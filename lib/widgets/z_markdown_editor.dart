@@ -20,6 +20,7 @@ class ZMarkdownEditor extends StatefulWidget {
     this.textCapitalization = TextCapitalization.sentences,
     this.readOnly = false,
     this.cursorColor,
+    this.focusNode,
   }) : super(key: key);
 
   /// For enable toolbar options
@@ -103,6 +104,18 @@ class ZMarkdownEditor extends StatefulWidget {
   /// [ThemeData.colorScheme].
   final Color? cursorColor;
 
+  /// Defines the keyboard focus for this widget.
+  ///
+  /// The [focusNode] is a long-lived object that's typically managed by a [StatefulWidget] parent. See
+  /// [FocusNode] for more information.
+  ///
+  /// To give the keyboard focus to this widget, provide a [focusNode] and then use the current
+  /// [FocusScope] to request the focus:
+  ///
+  /// FocusScope.of(context).requestFocus(myFocusNode);
+  /// This happens automatically when the widget is tapped.
+  final FocusNode? focusNode;
+
   @override
   _ZMarkdownEditorState createState() => _ZMarkdownEditorState();
 }
@@ -118,7 +131,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
     _internalController = widget.controller != null
         ? widget.controller!
         : TextEditingController();
-    _internalFocus = FocusNode();
+    _internalFocus = widget.focusNode != null ? widget.focusNode! : FocusNode();
     _isPreview = false;
     super.initState();
   }
