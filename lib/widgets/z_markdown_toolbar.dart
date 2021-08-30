@@ -82,10 +82,18 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // unorder list
               ToolbarItem(
-                key: ValueKey<String>("toolbar_unorderlist_action"),
+                key: ValueKey<String>("toolbar_unorder_list_action"),
                 icon: FontAwesomeIcons.listUl,
                 onPressed: () {
                   toolbar.action("* ", "");
+                },
+              ),
+              // checkbox list
+              ToolbarItem(
+                key: ValueKey<String>("toolbar_checkbox_list_action"),
+                icon: FontAwesomeIcons.list,
+                onPressed: () {
+                  toolbar.action("- [ ] ", "");
                 },
               ),
               // link

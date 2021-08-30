@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:simple_markdown_editor/widgets/image_network.dart';
 
@@ -76,6 +77,13 @@ class ZMarkdownParse extends StatelessWidget {
         return ImageNetworkMarkdown(
           uri: uri.toString(),
           title: title,
+        );
+      },
+      checkboxBuilder: (bool value) {
+        return Icon(
+          value ? FontAwesomeIcons.solidCheckSquare : FontAwesomeIcons.square,
+          size: 14,
+          color: value ? Colors.green : Colors.grey,
         );
       },
     );
