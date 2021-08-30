@@ -91,9 +91,17 @@ class ZMarkdownToolbar extends StatelessWidget {
               // checkbox list
               ToolbarItem(
                 key: ValueKey<String>("toolbar_checkbox_list_action"),
-                icon: FontAwesomeIcons.list,
+                icon: FontAwesomeIcons.tasks,
                 onPressed: () {
                   toolbar.action("- [ ] ", "");
+                },
+              ),
+              // emoji
+              ToolbarItem(
+                key: ValueKey<String>("toolbar_emoji_action"),
+                icon: FontAwesomeIcons.solidSmile,
+                onPressed: () {
+                  _showModalSelectEmoji(context, controller.selection);
                 },
               ),
               // link
@@ -122,14 +130,6 @@ class ZMarkdownToolbar extends StatelessWidget {
                       controller.selection,
                     );
                   }
-                },
-              ),
-              // emoji
-              ToolbarItem(
-                key: ValueKey<String>("toolbar_emoji_action"),
-                icon: FontAwesomeIcons.solidSmile,
-                onPressed: () {
-                  _showModalSelectEmoji(context, controller.selection);
                 },
               ),
               // blockquote
