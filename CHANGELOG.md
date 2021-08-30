@@ -28,3 +28,7 @@
 ## 0.1.4+1
 
 * major update
+
+## 0.1.4+2
+
+* bug fixing
