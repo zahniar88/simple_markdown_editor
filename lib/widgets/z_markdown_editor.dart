@@ -21,6 +21,7 @@ class ZMarkdownEditor extends StatefulWidget {
     this.readOnly = false,
     this.cursorColor,
     this.focusNode,
+    this.padding = const EdgeInsets.all(10),
   }) : super(key: key);
 
   /// For enable toolbar options
@@ -116,6 +117,9 @@ class ZMarkdownEditor extends StatefulWidget {
   /// This happens automatically when the widget is tapped.
   final FocusNode? focusNode;
 
+  /// The amount of space by which to inset the child.
+  final EdgeInsetsGeometry padding;
+
   @override
   _ZMarkdownEditorState createState() => _ZMarkdownEditorState();
 }
@@ -143,7 +147,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
         !_isPreview
             ? Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: widget.padding,
                   child: TextField(
                     key: ValueKey<String>("zmarkdowneditor"),
                     maxLines: null,

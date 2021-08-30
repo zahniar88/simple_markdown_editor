@@ -17,6 +17,18 @@ class ZMarkdownParse extends StatelessWidget {
     this.onTapLink,
     this.onTapHastag,
     this.onTapMention,
+    this.physics,
+    this.controller,
+    this.shrinkWrap = false,
+    this.syntaxHighlighter,
+    this.bulletBuilder,
+    this.styleSheetTheme,
+    this.styleSheet,
+    this.imageBuilder,
+    this.checkboxBuilder,
+    this.builders = const <String, MarkdownElementBuilder>{},
+    this.inlineSyntaxes,
+    this.blockSyntaxes,
   }) : super(key: key);
 
   /// The string markdown to display.
@@ -31,6 +43,56 @@ class ZMarkdownParse extends StatelessWidget {
   /// Called when the user taps a mention.
   final ZMarkdownTapTagCallback? onTapMention;
 
+  /// How the scroll view should respond to user input.
+  ///
+  /// See also: [ScrollView.physics]
+  final ScrollPhysics? physics;
+
+  /// n object that can be used to control the position to which this scroll view is scrolled.
+  ///
+  /// See also: [ScrollView.controller]
+  final ScrollController? controller;
+
+  /// Whether the extent of the scroll view in the scroll direction should be determined by the contents being viewed.
+  ///
+  /// See also: [ScrollView.shrinkWrap]
+  final bool shrinkWrap;
+
+  /// Creates a format [TextSpan] given a string.
+  ///
+  /// Used by [MarkdownWidget] to highlight the contents of `pre` elements.
+  final SyntaxHighlighter? syntaxHighlighter;
+
+  /// Signature for custom bullet widget.
+  ///
+  /// Used by [MarkdownWidget.bulletBuilder]
+  final MarkdownBulletBuilder? bulletBuilder;
+
+  /// Enum to specify which theme being used when creating [MarkdownStyleSheet]
+  ///
+  /// [material] - create MarkdownStyleSheet based on MaterialTheme
+  /// [cupertino] - create MarkdownStyleSheet based on CupertinoTheme
+  /// [platform] - create MarkdownStyleSheet based on the Platform where the
+  /// is running on. Material on Android and Cupertino on iOS
+  final MarkdownStyleSheetBaseTheme? styleSheetTheme;
+
+  /// Defines which [TextStyle] objects to use for which Markdown elements.
+  final MarkdownStyleSheet? styleSheet;
+
+  /// Signature for custom image widget.
+  ///
+  /// Used by [MarkdownWidget.imageBuilder]
+  final MarkdownImageBuilder? imageBuilder;
+
+  /// Signature for custom checkbox widget.
+  ///
+  /// Used by [MarkdownWidget.checkboxBuilder]
+  final MarkdownCheckboxBuilder? checkboxBuilder;
+
+  final Map<String, MarkdownElementBuilder> builders;
+  final List<md.InlineSyntax>? inlineSyntaxes;
+  final List<md.BlockSyntax>? blockSyntaxes;
+
   @override
   Widget build(BuildContext context) {
     return Markdown(
@@ -38,6 +100,12 @@ class ZMarkdownParse extends StatelessWidget {
       data: data,
       selectable: true,
       padding: EdgeInsets.all(10),
+      physics: physics,
+      controller: controller,
+      shrinkWrap: shrinkWrap,
+      syntaxHighlighter: syntaxHighlighter,
+      bulletBuilder: bulletBuilder,
+      styleSheetTheme: styleSheetTheme,
       extensionSet: md.ExtensionSet(
         md.ExtensionSet.gitHubFlavored.blockSyntaxes,
         [
@@ -48,44 +116,56 @@ class ZMarkdownParse extends StatelessWidget {
       ),
       blockSyntaxes: [
         md.FencedCodeBlockSyntax(),
+        if (blockSyntaxes != null) ...blockSyntaxes!
       ],
       inlineSyntaxes: [
         ColoredHastagSyntax(),
         ColoredMentionSyntax(),
+        if (inlineSyntaxes != null) ...inlineSyntaxes!
       ],
       builders: {
         "hastag": ColoredHastagElementBuilder(onTapHastag),
         "mention": ColoredMentionElementBuilder(onTapMention),
+        ...builders
       },
-      styleSheet: MarkdownStyleSheet(
-        code: TextStyle(
-          color: Colors.purple,
-        ),
-        blockquoteDecoration: BoxDecoration(
-          color: Colors.grey[200],
-          border: Border(
-            left: BorderSide(
-              color: Colors.grey,
-              width: 5,
+      styleSheet: styleSheet != null
+          ? styleSheet
+          : MarkdownStyleSheet(
+              code: TextStyle(
+                color: Colors.purple,
+              ),
+              blockquoteDecoration: BoxDecoration(
+                color: Colors.grey[200],
+                border: Border(
+                  left: BorderSide(
+                    color: Colors.grey,
+                    width: 5,
+                  ),
+                ),
+              ),
+              blockquotePadding:
+                  EdgeInsets.symmetric(vertical: 15, horizontal: 25),
             ),
-          ),
-        ),
-        blockquotePadding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
-      ),
       onTapLink: onTapLink,
-      imageBuilder: (Uri uri, String? title, String? alt) {
-        return ImageNetworkMarkdown(
-          uri: uri.toString(),
-          title: title,
-        );
-      },
-      checkboxBuilder: (bool value) {
-        return Icon(
-          value ? FontAwesomeIcons.solidCheckSquare : FontAwesomeIcons.square,
-          size: 14,
-          color: value ? Colors.green : Colors.grey,
-        );
-      },
+      imageBuilder: imageBuilder != null
+          ? imageBuilder
+          : (Uri uri, String? title, String? alt) {
+              return ImageNetworkMarkdown(
+                uri: uri.toString(),
+                title: title,
+              );
+            },
+      checkboxBuilder: checkboxBuilder != null
+          ? checkboxBuilder
+          : (bool value) {
+              return Icon(
+                value
+                    ? FontAwesomeIcons.solidCheckSquare
+                    : FontAwesomeIcons.square,
+                size: 14,
+                color: value ? Colors.green : Colors.grey,
+              );
+            },
     );
   }
 }
