@@ -33,6 +33,7 @@ class ZMarkdownParse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Markdown(
+      key: Key("defaultmarkdownformatter"),
       data: data,
       selectable: true,
       padding: EdgeInsets.all(10),

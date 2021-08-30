@@ -38,6 +38,7 @@ class ZMarkdownToolbar extends StatelessWidget {
           children: [
             // preview
             ToolbarItem(
+              key: ValueKey<String>("toolbar_view_item"),
               icon:
                   isPreview ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
               onPressed: () {
@@ -49,6 +50,7 @@ class ZMarkdownToolbar extends StatelessWidget {
             if (!isPreview) ...[
               // bold
               ToolbarItem(
+                key: ValueKey<String>("toolbar_bold_action"),
                 icon: FontAwesomeIcons.bold,
                 onPressed: () {
                   toolbar.action("**", "**");
@@ -56,13 +58,15 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // italic
               ToolbarItem(
+                key: ValueKey<String>("toolbar_italic_action"),
                 icon: FontAwesomeIcons.italic,
                 onPressed: () {
-                  toolbar.action("_", "_");
+                  toolbar.action("*", "*");
                 },
               ),
               // strikethrough
               ToolbarItem(
+                key: ValueKey<String>("toolbar_strikethrough_action"),
                 icon: FontAwesomeIcons.strikethrough,
                 onPressed: () {
                   toolbar.action("~~", "~~");
@@ -70,6 +74,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // heading
               ToolbarItem(
+                key: ValueKey<String>("toolbar_heading_action"),
                 icon: FontAwesomeIcons.heading,
                 onPressed: () {
                   toolbar.action("## ", "");
@@ -77,6 +82,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // unorder list
               ToolbarItem(
+                key: ValueKey<String>("toolbar_unorderlist_action"),
                 icon: FontAwesomeIcons.listUl,
                 onPressed: () {
                   toolbar.action("* ", "");
@@ -84,6 +90,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // link
               ToolbarItem(
+                key: ValueKey<String>("toolbar_link_action"),
                 icon: FontAwesomeIcons.link,
                 onPressed: () {
                   if (toolbar.checkHasSelection())
@@ -95,6 +102,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // image
               ToolbarItem(
+                key: ValueKey<String>("toolbar_image_action"),
                 icon: FontAwesomeIcons.image,
                 onPressed: () {
                   if (toolbar.checkHasSelection()) {
@@ -110,6 +118,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // emoji
               ToolbarItem(
+                key: ValueKey<String>("toolbar_emoji_action"),
                 icon: FontAwesomeIcons.solidSmile,
                 onPressed: () {
                   _showModalSelectEmoji(context, controller.selection);
@@ -117,6 +126,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // blockquote
               ToolbarItem(
+                key: ValueKey<String>("toolbar_blockquote_action"),
                 icon: FontAwesomeIcons.quoteLeft,
                 onPressed: () {
                   toolbar.action("> ", "");
@@ -124,6 +134,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // code
               ToolbarItem(
+                key: ValueKey<String>("toolbar_code_action"),
                 icon: FontAwesomeIcons.code,
                 onPressed: () {
                   toolbar.action("`", "`");
@@ -131,6 +142,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ),
               // line
               ToolbarItem(
+                key: ValueKey<String>("toolbar_line_action"),
                 icon: FontAwesomeIcons.rulerHorizontal,
                 onPressed: () {
                   toolbar.action("\n___\n", "");

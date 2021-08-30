@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_markdown_editor/simple_markdown_editor.dart';
-import 'package:simple_markdown_editor/src/emoji_input_formater.dart';
+import 'package:simple_markdown_editor/src/emoji_input_formatter.dart';
 import 'package:simple_markdown_editor/widgets/z_markdown_toolbar.dart';
 
 class ZMarkdownEditor extends StatefulWidget {
@@ -145,6 +145,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
                 child: Padding(
                   padding: EdgeInsets.all(10),
                   child: TextField(
+                    key: ValueKey<String>("zmarkdowneditor"),
                     maxLines: null,
                     focusNode: _internalFocus,
                     controller: _internalController,
@@ -174,6 +175,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
               )
             : Expanded(
                 child: ZMarkdownParse(
+                  key: ValueKey<String>("zmarkdownparse"),
                   data: _internalController.text,
                 ),
               ),
@@ -181,6 +183,7 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
         // show toolbar
         if (widget.enableToolBar && !widget.readOnly)
           ZMarkdownToolbar(
+            key: ValueKey<String>("zmarkdowntoolbar"),
             controller: _internalController,
             isPreview: _isPreview,
             autoCloseAfterSelectEmoji: widget.autoCloseAfterSelectEmoji,

@@ -61,8 +61,7 @@ class Toolbar {
     if (middle.contains(left) &&
         middle.contains(right) &&
         middle.split("\n").length < 2) {
-      selectionText = middle.replaceFirst(left, "");
-      selectionText = selectionText.replaceFirst(right, "");
+      selectionText = middle.replaceFirst(left, "").replaceFirst(right, "");
       contentOffset = middle.length - (left.length + right.length);
     }
 
@@ -76,7 +75,6 @@ class Toolbar {
         offset: selection.baseOffset + contentOffset,
       ),
     );
-    print(controller.selection.baseOffset);
   }
 
   // multiline formating

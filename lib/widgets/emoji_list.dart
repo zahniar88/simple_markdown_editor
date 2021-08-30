@@ -115,7 +115,7 @@ class _EmojiListState extends State<EmojiList> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Emoticons (${_emoticons.length})",
+            "Emoticons",
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -158,7 +158,12 @@ class _EmojiListState extends State<EmojiList> {
           SizedBox(
             height: 20,
           ),
-          _listEmots(context),
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom * 0.2,
+            ),
+            child: _listEmots(context),
+          ),
         ],
       ),
     );
@@ -169,7 +174,7 @@ class _EmojiListState extends State<EmojiList> {
       height: MediaQuery.of(context).size.height * 0.45,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 7,
+          crossAxisCount: 9,
         ),
         itemCount: _emoticons
             .where((element) =>
@@ -182,6 +187,7 @@ class _EmojiListState extends State<EmojiList> {
               .elementAt(index);
 
           return TextButton(
+            key: ValueKey<String>("${index}_${emot.replaceAll(":", "")}"),
             onPressed: () {
               widget.onChanged?.call(
                 (widget.emojiConvert) ? _parser.emojify(emot) : emot,
@@ -190,7 +196,7 @@ class _EmojiListState extends State<EmojiList> {
             child: Text(
               _parser.emojify(emot),
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 24,
               ),
             ),
           );
