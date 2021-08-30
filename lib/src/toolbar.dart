@@ -20,19 +20,32 @@ class Toolbar {
         0;
   }
 
+  // get selection text pffset
+  TextSelection getSelection(TextSelection selection) {
+    return selection.baseOffset < 0 || selection.extentOffset < 0
+        ? selection.copyWith(
+            baseOffset: controller.text.length,
+            extentOffset: controller.text.length,
+          )
+        : selection;
+  }
+
   // toolbar action
   void action(
     String left,
     String right, {
     TextSelection? textSelection,
-  }) async {
-    focusNode.requestFocus();
-    await Future.delayed(Duration(milliseconds: 1));
+  }) {
+    if (!focusNode.hasFocus) {
+      focusNode.requestFocus();
+    }
 
     // default parameter
     final currentTextValue = controller.value.text;
-    final selection =
+    var selection =
         textSelection != null ? textSelection : controller.selection;
+    selection = getSelection(selection);
+
     final middle = selection.textInside(currentTextValue);
     var selectionText = '$left$middle$right';
     var contentOffset = left.length + middle.length;
@@ -63,6 +76,7 @@ class Toolbar {
         offset: selection.baseOffset + contentOffset,
       ),
     );
+    print(controller.selection.baseOffset);
   }
 
   // multiline formating

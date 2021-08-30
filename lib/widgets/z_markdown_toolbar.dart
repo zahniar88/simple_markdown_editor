@@ -159,14 +159,9 @@ class ZMarkdownToolbar extends StatelessWidget {
           emojiConvert: emojiConvert,
           onChanged: (String emot) {
             if (autoCloseAfterSelectEmoji) Navigator.pop(context);
-
-            var newSelection =
-                (selection.baseOffset < 0 && selection.extentOffset < 0)
-                    ? selection.copyWith(baseOffset: 0, extentOffset: 0)
-                    : selection;
+            final newSelection = toolbar.getSelection(selection);
 
             toolbar.action(emot, "", textSelection: newSelection);
-
             // change selection baseoffset if not auto close emoji
             if (!autoCloseAfterSelectEmoji) {
               selection = TextSelection.collapsed(
