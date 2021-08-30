@@ -5,6 +5,8 @@
 [![Support Me](https://img.shields.io/badge/Donate-Saweria-orange.svg)](https://saweria.co/zahniar88)
 [![GitHub stars](https://img.shields.io/github/stars/zahniar88/simple_markdown_editor?color=green)](https://github.com/zahniar88/simple_markdown_editor)
 [![undo](https://img.shields.io/pub/v/simple_markdown_editor.svg?color=teal)](https://pub.dev/packages/simple_markdown_editor)
+![GitHub](https://img.shields.io/github/license/zahniar88/simple_markdown_editor?color=red)
+![GitHub repo size](https://img.shields.io/github/repo-size/zahniar88/simple_markdown_editor?label=size&color=brightgreen)
 
 
 Simple markdown editor library For flutter. 
@@ -13,7 +15,7 @@ For demo video, you can see it at this url [Demo](https://youtu.be/aYBeXXDoNPo)
 ## Features
 - [x] Convert to Bold, Italic, Strikethrough
 - [x] Convert to Code, Quote, Links
-- [x] Convert to Heading (H1, H2, H3, H4, H5, H6) and Links
+- [x] Convert to Heading (only h2) and Links
 - [x] Support multiline convert
 - [x] Support auto convert emoji
 
