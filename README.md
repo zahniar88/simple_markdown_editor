@@ -15,7 +15,7 @@ For demo video, you can see it at this url [Demo](https://youtu.be/aYBeXXDoNPo)
 ## Features
 - [x] Convert to Bold, Italic, Strikethrough
 - [x] Convert to Code, Quote, Links
-- [x] Convert to Heading (only h2)
+- [x] Convert to Heading (H1, H2, H3).
 - [x] Convert to unorder list and checkbox list
 - [x] Support multiline convert
 - [x] Support auto convert emoji

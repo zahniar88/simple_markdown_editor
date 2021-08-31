@@ -51,7 +51,7 @@ class MarkdownToolbar extends StatelessWidget {
               // select single line
               ToolbarItem(
                 key: ValueKey<String>("toolbar_selection_action"),
-                icon: FontAwesomeIcons.mousePointer,
+                icon: FontAwesomeIcons.textWidth,
                 onPressedButton: () {
                   toolbar.selectSingleLine();
                 },

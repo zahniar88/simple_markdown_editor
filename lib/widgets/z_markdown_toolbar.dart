@@ -52,6 +52,14 @@ class ZMarkdownToolbar extends StatelessWidget {
 
             // show only if _isPreview is false
             if (!isPreview) ...[
+              // select single line
+              ToolbarItem(
+                key: ValueKey<String>("toolbar_selection_action"),
+                icon: FontAwesomeIcons.textWidth,
+                onPressedButton: () {
+                  toolbar.selectSingleLine();
+                },
+              ),
               // bold
               ToolbarItem(
                 key: ValueKey<String>("toolbar_bold_action"),
@@ -80,9 +88,24 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_heading_action"),
                 icon: FontAwesomeIcons.heading,
-                onPressedButton: () {
-                  toolbar.action("## ", "");
-                },
+                isExpandable: true,
+                items: [
+                  ToolbarItem(
+                    key: ValueKey<String>("h1"),
+                    icon: "H1",
+                    onPressedButton: () => toolbar.action("# ", ""),
+                  ),
+                  ToolbarItem(
+                    key: ValueKey<String>("h2"),
+                    icon: "H2",
+                    onPressedButton: () => toolbar.action("## ", ""),
+                  ),
+                  ToolbarItem(
+                    key: ValueKey<String>("h3"),
+                    icon: "H3",
+                    onPressedButton: () => toolbar.action("### ", ""),
+                  ),
+                ],
               ),
               // unorder list
               ToolbarItem(
@@ -96,9 +119,23 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_checkbox_list_action"),
                 icon: FontAwesomeIcons.tasks,
-                onPressedButton: () {
-                  toolbar.action("- [ ] ", "");
-                },
+                isExpandable: true,
+                items: [
+                  ToolbarItem(
+                    key: ValueKey<String>("checkbox"),
+                    icon: FontAwesomeIcons.solidCheckSquare,
+                    onPressedButton: () {
+                      toolbar.action("- [x] ", "");
+                    },
+                  ),
+                  ToolbarItem(
+                    key: ValueKey<String>("uncheckbox"),
+                    icon: FontAwesomeIcons.square,
+                    onPressedButton: () {
+                      toolbar.action("- [ ] ", "");
+                    },
+                  )
+                ],
               ),
               // emoji
               ToolbarItem(

@@ -37,3 +37,5 @@
 
 * add checkbox list toolbar
 * deprecated (ZMarkdownEditor, ZMarkdownParse, ZMarkdownToolbar)
+* add toolbar item single line selection
+* toolbar heading add (H1, H2, H3)
