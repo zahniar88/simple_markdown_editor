@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../src/emoji_parser.dart';
 
-class EmojiList extends StatefulWidget {
-  EmojiList({
+class ModalSelectEmoji extends StatefulWidget {
+  ModalSelectEmoji({
     Key? key,
     this.onChanged,
     this.emojiConvert = true,
@@ -13,10 +13,10 @@ class EmojiList extends StatefulWidget {
   final ValueChanged<String>? onChanged;
 
   @override
-  _EmojiListState createState() => _EmojiListState();
+  _ModalSelectEmojiState createState() => _ModalSelectEmojiState();
 }
 
-class _EmojiListState extends State<EmojiList> {
+class _ModalSelectEmojiState extends State<ModalSelectEmoji> {
   final _parser = EmojiParser();
 
   String _search = "";

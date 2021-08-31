@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../src/toolbar.dart';
-import 'emoji_list.dart';
+import 'modal_select_emoji.dart';
 import 'modal_input_url.dart';
 import 'toolbar_item.dart';
 
@@ -175,7 +175,7 @@ class MarkdownToolbar extends StatelessWidget {
       ),
       context: context,
       builder: (context) {
-        return EmojiList(
+        return ModalSelectEmoji(
           emojiConvert: emojiConvert,
           onChanged: (String emot) {
             if (autoCloseAfterSelectEmoji) Navigator.pop(context);
