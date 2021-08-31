@@ -45,7 +45,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               key: ValueKey<String>("toolbar_view_item"),
               icon:
                   isPreview ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
-              onPressed: () {
+              onPressedButton: () {
                 onPreviewChanged.call();
               },
             ),
@@ -56,7 +56,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_bold_action"),
                 icon: FontAwesomeIcons.bold,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("**", "**");
                 },
               ),
@@ -64,15 +64,15 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_italic_action"),
                 icon: FontAwesomeIcons.italic,
-                onPressed: () {
-                  toolbar.action("*", "*");
+                onPressedButton: () {
+                  toolbar.action("_", "_");
                 },
               ),
               // strikethrough
               ToolbarItem(
                 key: ValueKey<String>("toolbar_strikethrough_action"),
                 icon: FontAwesomeIcons.strikethrough,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("~~", "~~");
                 },
               ),
@@ -80,7 +80,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_heading_action"),
                 icon: FontAwesomeIcons.heading,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("## ", "");
                 },
               ),
@@ -88,7 +88,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_unorder_list_action"),
                 icon: FontAwesomeIcons.listUl,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("* ", "");
                 },
               ),
@@ -96,7 +96,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_checkbox_list_action"),
                 icon: FontAwesomeIcons.tasks,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("- [ ] ", "");
                 },
               ),
@@ -104,7 +104,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_emoji_action"),
                 icon: FontAwesomeIcons.solidSmile,
-                onPressed: () {
+                onPressedButton: () {
                   _showModalSelectEmoji(context, controller.selection);
                 },
               ),
@@ -112,7 +112,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_link_action"),
                 icon: FontAwesomeIcons.link,
-                onPressed: () {
+                onPressedButton: () {
                   if (toolbar.checkHasSelection())
                     toolbar.action("[enter link description here](", ")");
                   else
@@ -124,7 +124,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_image_action"),
                 icon: FontAwesomeIcons.image,
-                onPressed: () {
+                onPressedButton: () {
                   if (toolbar.checkHasSelection()) {
                     toolbar.action("![enter image description here](", ")");
                   } else {
@@ -140,7 +140,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_blockquote_action"),
                 icon: FontAwesomeIcons.quoteLeft,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("> ", "");
                 },
               ),
@@ -148,7 +148,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_code_action"),
                 icon: FontAwesomeIcons.code,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("`", "`");
                 },
               ),
@@ -156,7 +156,7 @@ class ZMarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_line_action"),
                 icon: FontAwesomeIcons.rulerHorizontal,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("\n___\n", "");
                 },
               ),

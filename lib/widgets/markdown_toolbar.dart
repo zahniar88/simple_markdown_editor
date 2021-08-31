@@ -31,7 +31,7 @@ class MarkdownToolbar extends StatelessWidget {
     return Container(
       color: Colors.grey[200],
       width: double.infinity,
-      height: 60,
+      height: 70,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -41,18 +41,26 @@ class MarkdownToolbar extends StatelessWidget {
               key: ValueKey<String>("toolbar_view_item"),
               icon:
                   isPreview ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye,
-              onPressed: () {
+              onPressedButton: () {
                 onPreviewChanged.call();
               },
             ),
 
             // show only if _isPreview is false
             if (!isPreview) ...[
+              // select single line
+              ToolbarItem(
+                key: ValueKey<String>("toolbar_selection_action"),
+                icon: FontAwesomeIcons.mousePointer,
+                onPressedButton: () {
+                  toolbar.selectSingleLine();
+                },
+              ),
               // bold
               ToolbarItem(
                 key: ValueKey<String>("toolbar_bold_action"),
                 icon: FontAwesomeIcons.bold,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("**", "**");
                 },
               ),
@@ -60,15 +68,15 @@ class MarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_italic_action"),
                 icon: FontAwesomeIcons.italic,
-                onPressed: () {
-                  toolbar.action("*", "*");
+                onPressedButton: () {
+                  toolbar.action("_", "_");
                 },
               ),
               // strikethrough
               ToolbarItem(
                 key: ValueKey<String>("toolbar_strikethrough_action"),
                 icon: FontAwesomeIcons.strikethrough,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("~~", "~~");
                 },
               ),
@@ -76,15 +84,30 @@ class MarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_heading_action"),
                 icon: FontAwesomeIcons.heading,
-                onPressed: () {
-                  toolbar.action("## ", "");
-                },
+                isExpandable: true,
+                items: [
+                  ToolbarItem(
+                    key: ValueKey<String>("h1"),
+                    icon: "H1",
+                    onPressedButton: () => toolbar.action("# ", ""),
+                  ),
+                  ToolbarItem(
+                    key: ValueKey<String>("h2"),
+                    icon: "H2",
+                    onPressedButton: () => toolbar.action("## ", ""),
+                  ),
+                  ToolbarItem(
+                    key: ValueKey<String>("h3"),
+                    icon: "H3",
+                    onPressedButton: () => toolbar.action("### ", ""),
+                  ),
+                ],
               ),
               // unorder list
               ToolbarItem(
                 key: ValueKey<String>("toolbar_unorder_list_action"),
                 icon: FontAwesomeIcons.listUl,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("* ", "");
                 },
               ),
@@ -92,15 +115,29 @@ class MarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_checkbox_list_action"),
                 icon: FontAwesomeIcons.tasks,
-                onPressed: () {
-                  toolbar.action("- [ ] ", "");
-                },
+                isExpandable: true,
+                items: [
+                  ToolbarItem(
+                    key: ValueKey<String>("checkbox"),
+                    icon: FontAwesomeIcons.solidCheckSquare,
+                    onPressedButton: () {
+                      toolbar.action("- [x] ", "");
+                    },
+                  ),
+                  ToolbarItem(
+                    key: ValueKey<String>("uncheckbox"),
+                    icon: FontAwesomeIcons.square,
+                    onPressedButton: () {
+                      toolbar.action("- [ ] ", "");
+                    },
+                  )
+                ],
               ),
               // emoji
               ToolbarItem(
                 key: ValueKey<String>("toolbar_emoji_action"),
                 icon: FontAwesomeIcons.solidSmile,
-                onPressed: () {
+                onPressedButton: () {
                   _showModalSelectEmoji(context, controller.selection);
                 },
               ),
@@ -108,7 +145,7 @@ class MarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_link_action"),
                 icon: FontAwesomeIcons.link,
-                onPressed: () {
+                onPressedButton: () {
                   if (toolbar.checkHasSelection())
                     toolbar.action("[enter link description here](", ")");
                   else
@@ -120,7 +157,7 @@ class MarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_image_action"),
                 icon: FontAwesomeIcons.image,
-                onPressed: () {
+                onPressedButton: () {
                   if (toolbar.checkHasSelection()) {
                     toolbar.action("![enter image description here](", ")");
                   } else {
@@ -136,7 +173,7 @@ class MarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_blockquote_action"),
                 icon: FontAwesomeIcons.quoteLeft,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("> ", "");
                 },
               ),
@@ -144,7 +181,7 @@ class MarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_code_action"),
                 icon: FontAwesomeIcons.code,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("`", "`");
                 },
               ),
@@ -152,7 +189,7 @@ class MarkdownToolbar extends StatelessWidget {
               ToolbarItem(
                 key: ValueKey<String>("toolbar_line_action"),
                 icon: FontAwesomeIcons.rulerHorizontal,
-                onPressed: () {
+                onPressedButton: () {
                   toolbar.action("\n___\n", "");
                 },
               ),

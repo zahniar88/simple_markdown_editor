@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ToolbarResult {
-  final int offset;
+  final int baseOffset;
+  final int extentOffset;
   final String text;
 
-  ToolbarResult({required this.offset, required this.text});
+  ToolbarResult({
+    required this.baseOffset,
+    required this.text,
+    required this.extentOffset,
+  });
 }
 
 class Toolbar {
@@ -48,13 +53,16 @@ class Toolbar {
 
     final middle = selection.textInside(currentTextValue);
     var selectionText = '$left$middle$right';
-    var contentOffset = left.length + middle.length;
+    var baseOffset = left.length + middle.length;
+    var extentOffset = selection.extentOffset + left.length + right.length;
 
     // check if middle text have char \n
     if (middle.split("\n").length > 1) {
-      ToolbarResult result = _multiLineFormating(left, middle, right);
+      ToolbarResult result =
+          _multiLineFormating(left, middle, right, selection.extentOffset);
       selectionText = result.text;
-      contentOffset = result.offset;
+      baseOffset = result.baseOffset;
+      extentOffset = result.extentOffset;
     }
 
     // check if middle not have char \n
@@ -62,23 +70,36 @@ class Toolbar {
         middle.contains(right) &&
         middle.split("\n").length < 2) {
       selectionText = middle.replaceFirst(left, "").replaceFirst(right, "");
-      contentOffset = middle.length - (left.length + right.length);
+      baseOffset = middle.length - (left.length + right.length);
+      extentOffset = selection.extentOffset - (left.length + right.length);
     }
 
     final newTextValue = selection.textBefore(currentTextValue) +
         selectionText +
         selection.textAfter(currentTextValue);
 
+    // print(selection.extentOffset - (left.length + right.length));
+
     controller.value = controller.value.copyWith(
       text: newTextValue,
-      selection: TextSelection.collapsed(
-        offset: selection.baseOffset + contentOffset,
-      ),
+      selection: selection.baseOffset == selection.extentOffset
+          ? TextSelection.collapsed(
+              offset: selection.baseOffset + baseOffset,
+            )
+          : TextSelection(
+              baseOffset: selection.baseOffset,
+              extentOffset: extentOffset,
+            ),
     );
   }
 
   // multiline formating
-  ToolbarResult _multiLineFormating(String left, String middle, String right) {
+  ToolbarResult _multiLineFormating(
+    String left,
+    String middle,
+    String right,
+    int selection,
+  ) {
     final splitData = middle.split("\n");
     var index = 0;
     var resetLength = 0;
@@ -104,8 +125,29 @@ class Toolbar {
       return index == splitData.length ? newText : "$newText\n";
     }).join();
 
-    final contentOffset = addLength + (middle.length - (resetLength * 2));
+    final baseOffset = addLength + (middle.length - (resetLength * 2));
+    final extentOffset = selection + addLength - (resetLength * 2);
 
-    return ToolbarResult(offset: contentOffset, text: selectionText);
+    return ToolbarResult(
+      baseOffset: baseOffset,
+      text: selectionText,
+      extentOffset: extentOffset,
+    );
+  }
+
+  void selectSingleLine() {
+    final currentPosition = controller.selection;
+    var textBefore = currentPosition.textBefore(controller.text);
+    var textAfter = currentPosition.textAfter(controller.text);
+
+    textBefore = textBefore.split("\n").last;
+    textAfter = textAfter.split("\n")[0];
+    final firstTextPosition = controller.text.indexOf(textBefore + textAfter);
+    controller.value = controller.value.copyWith(
+      selection: TextSelection(
+        baseOffset: firstTextPosition,
+        extentOffset: firstTextPosition + (textBefore + textAfter).length,
+      ),
+    );
   }
 }

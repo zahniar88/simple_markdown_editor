@@ -30,6 +30,7 @@ class MarkdownParse extends StatelessWidget {
     this.builders = const <String, MarkdownElementBuilder>{},
     this.inlineSyntaxes,
     this.blockSyntaxes,
+    this.checkboxIconSize,
   }) : super(key: key);
 
   /// The string markdown to display.
@@ -89,6 +90,13 @@ class MarkdownParse extends StatelessWidget {
   ///
   /// Used by [MarkdownWidget.checkboxBuilder]
   final MarkdownCheckboxBuilder? checkboxBuilder;
+
+  /// The size of the icon in logical pixels.
+  ///
+  /// Icons occupy a square with width and height equal to size.
+  ///
+  /// Defaults to the current [bodytext2] font size.
+  final double? checkboxIconSize;
 
   final Map<String, MarkdownElementBuilder> builders;
   final List<md.InlineSyntax>? inlineSyntaxes;
@@ -163,8 +171,10 @@ class MarkdownParse extends StatelessWidget {
                 value
                     ? FontAwesomeIcons.solidCheckSquare
                     : FontAwesomeIcons.square,
-                size: 14,
-                color: value ? Colors.green : Colors.grey,
+                size: checkboxIconSize != null
+                    ? checkboxIconSize
+                    : Theme.of(context).textTheme.bodyText2?.fontSize,
+                color: value ? Colors.grey[700] : Colors.grey,
               );
             },
     );
