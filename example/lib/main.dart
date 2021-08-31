@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Expanded(
-              child: ZMarkdownEditor(
+              child: MarkdownFormField(
                 controller: _controller,
                 enableToolBar: true,
                 emojiConvert: true,
@@ -83,8 +83,18 @@ class SecondScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Markdown Parse"),
       ),
-      body: ZMarkdownParse(
+      body: MarkdownParse(
         data: data,
+        onTapHastag: (String name, String match) {
+          // example : #hashtag
+          // name => hashtag
+          // match => #hashtag
+        },
+        onTapMention: (String name, String match) {
+          // example : @mention
+          // name => mention
+          // match => #mention
+        },
       ),
     );
   }

@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import '../src/emoji_input_formatter.dart';
+import 'markdown_field.dart';
 import 'markdown_parse.dart';
 import 'markdown_toolbar.dart';
 
-class ZMarkdownEditor extends StatefulWidget {
-  /// create a widget to edit markdown
-  ///
-  /// ZMarkdownEditor is built on the basis of TextField
-  @Deprecated(
-    "You can change it to MarkdownFormField or MarkdownField. "
-    "This widget will not be continued and may be removed in the next update.",
-  )
-  ZMarkdownEditor({
+class MarkdownFormField extends StatefulWidget {
+  const MarkdownFormField({
     Key? key,
     this.controller,
     this.scrollController,
@@ -125,10 +118,10 @@ class ZMarkdownEditor extends StatefulWidget {
   final EdgeInsetsGeometry padding;
 
   @override
-  _ZMarkdownEditorState createState() => _ZMarkdownEditorState();
+  _MarkdownFormFieldState createState() => _MarkdownFormFieldState();
 }
 
-class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
+class _MarkdownFormFieldState extends State<MarkdownFormField> {
   // internal parameter
   late bool _isPreview;
   late TextEditingController _internalController;
@@ -146,69 +139,51 @@ class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        !_isPreview
-            ? Expanded(
-                child: Padding(
-                  padding: widget.padding,
-                  child: TextField(
-                    key: ValueKey<String>("zmarkdowneditor"),
-                    maxLines: null,
-                    focusNode: _internalFocus,
-                    controller: _internalController,
-                    scrollController: widget.scrollController,
-                    onChanged: _onEditorChange,
-                    onTap: widget.onTap,
-                    autocorrect: false,
-                    keyboardType: TextInputType.multiline,
-                    textCapitalization: widget.textCapitalization,
-                    readOnly: widget.readOnly,
-                    cursorColor: widget.cursorColor,
-                    style: widget.style,
-                    inputFormatters: [
-                      if (widget.emojiConvert) EmojiInputFormatter(),
-                    ],
-                    toolbarOptions: ToolbarOptions(
-                      copy: true,
-                      paste: true,
-                      cut: true,
-                      selectAll: true,
+    return !widget.enableToolBar
+        ? _editor()
+        : Column(
+            children: [
+              !_isPreview
+                  ? _editor()
+                  : Expanded(
+                      child: MarkdownParse(
+                        key: ValueKey<String>("zmarkdownparse"),
+                        data: _internalController.text,
+                      ),
                     ),
-                    decoration: InputDecoration.collapsed(
-                      hintText: "Type here. . .",
-                    ),
-                  ),
-                ),
-              )
-            : Expanded(
-                child: MarkdownParse(
-                  key: ValueKey<String>("zmarkdownparse"),
-                  data: _internalController.text,
-                ),
-              ),
 
-        // show toolbar
-        if (widget.enableToolBar && !widget.readOnly)
-          MarkdownToolbar(
-            key: ValueKey<String>("zmarkdowntoolbar"),
-            controller: _internalController,
-            isPreview: _isPreview,
-            autoCloseAfterSelectEmoji: widget.autoCloseAfterSelectEmoji,
-            onPreviewChanged: () {
-              _isPreview = _isPreview ? false : true;
-              setState(() {});
-            },
-            focusNode: _internalFocus,
-            emojiConvert: widget.emojiConvert,
-          ),
-      ],
-    );
+              // show toolbar
+              if (!widget.readOnly)
+                MarkdownToolbar(
+                  key: ValueKey<String>("zmarkdowntoolbar"),
+                  controller: _internalController,
+                  isPreview: _isPreview,
+                  autoCloseAfterSelectEmoji: widget.autoCloseAfterSelectEmoji,
+                  onPreviewChanged: () {
+                    _isPreview = _isPreview ? false : true;
+                    setState(() {});
+                  },
+                  focusNode: _internalFocus,
+                  emojiConvert: widget.emojiConvert,
+                ),
+            ],
+          );
   }
 
-  // on field change
-  void _onEditorChange(String value) {
-    widget.onChanged?.call(value);
+  Widget _editor() {
+    return MarkdownField(
+      controller: _internalController,
+      focusNode: _internalFocus,
+      cursorColor: widget.cursorColor,
+      emojiConvert: widget.emojiConvert,
+      onChanged: widget.onChanged,
+      onTap: widget.onTap,
+      readOnly: widget.readOnly,
+      scrollController: widget.scrollController,
+      style: widget.style,
+      textCapitalization: widget.textCapitalization,
+      padding: widget.padding,
+    );
   }
 
   @override

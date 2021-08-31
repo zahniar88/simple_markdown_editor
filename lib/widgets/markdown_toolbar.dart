@@ -6,12 +6,8 @@ import 'emoji_list.dart';
 import 'modal_input_url.dart';
 import 'toolbar_item.dart';
 
-class ZMarkdownToolbar extends StatelessWidget {
-  @Deprecated(
-    "You can change it to MarkdownToolbar. "
-    "This widget will not be continued and may be removed in the next update.",
-  )
-  ZMarkdownToolbar({
+class MarkdownToolbar extends StatelessWidget {
+  MarkdownToolbar({
     Key? key,
     required this.onPreviewChanged,
     required this.controller,

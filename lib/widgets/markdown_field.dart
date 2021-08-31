@@ -1,17 +1,8 @@
 import 'package:flutter/material.dart';
 import '../src/emoji_input_formatter.dart';
-import 'markdown_parse.dart';
-import 'markdown_toolbar.dart';
 
-class ZMarkdownEditor extends StatefulWidget {
-  /// create a widget to edit markdown
-  ///
-  /// ZMarkdownEditor is built on the basis of TextField
-  @Deprecated(
-    "You can change it to MarkdownFormField or MarkdownField. "
-    "This widget will not be continued and may be removed in the next update.",
-  )
-  ZMarkdownEditor({
+class MarkdownField extends StatelessWidget {
+  const MarkdownField({
     Key? key,
     this.controller,
     this.scrollController,
@@ -19,19 +10,12 @@ class ZMarkdownEditor extends StatefulWidget {
     this.style,
     this.emojiConvert = false,
     this.onTap,
-    this.enableToolBar = false,
-    this.autoCloseAfterSelectEmoji = true,
     this.textCapitalization = TextCapitalization.sentences,
     this.readOnly = false,
     this.cursorColor,
     this.focusNode,
     this.padding = const EdgeInsets.all(10),
   }) : super(key: key);
-
-  /// For enable toolbar options
-  ///
-  /// if false, toolbar widget will not display
-  final bool enableToolBar;
 
   /// Controls the text being edited.
   ///
@@ -88,10 +72,6 @@ class ZMarkdownEditor extends StatefulWidget {
   /// detector, use a [Listener].
   final VoidCallback? onTap;
 
-  /// if you set it to false,
-  /// the modal will not disappear after you select the emoji
-  final bool autoCloseAfterSelectEmoji;
-
   /// Whether the text can be changed.
   ///
   /// When this is set to true, the text cannot be modified by any shortcut or keyboard operation. The text is still selectable.
@@ -125,98 +105,43 @@ class ZMarkdownEditor extends StatefulWidget {
   final EdgeInsetsGeometry padding;
 
   @override
-  _ZMarkdownEditorState createState() => _ZMarkdownEditorState();
-}
-
-class _ZMarkdownEditorState extends State<ZMarkdownEditor> {
-  // internal parameter
-  late bool _isPreview;
-  late TextEditingController _internalController;
-  late FocusNode _internalFocus;
-
-  @override
-  void initState() {
-    _internalController = widget.controller != null
-        ? widget.controller!
-        : TextEditingController();
-    _internalFocus = widget.focusNode != null ? widget.focusNode! : FocusNode();
-    _isPreview = false;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        !_isPreview
-            ? Expanded(
-                child: Padding(
-                  padding: widget.padding,
-                  child: TextField(
-                    key: ValueKey<String>("zmarkdowneditor"),
-                    maxLines: null,
-                    focusNode: _internalFocus,
-                    controller: _internalController,
-                    scrollController: widget.scrollController,
-                    onChanged: _onEditorChange,
-                    onTap: widget.onTap,
-                    autocorrect: false,
-                    keyboardType: TextInputType.multiline,
-                    textCapitalization: widget.textCapitalization,
-                    readOnly: widget.readOnly,
-                    cursorColor: widget.cursorColor,
-                    style: widget.style,
-                    inputFormatters: [
-                      if (widget.emojiConvert) EmojiInputFormatter(),
-                    ],
-                    toolbarOptions: ToolbarOptions(
-                      copy: true,
-                      paste: true,
-                      cut: true,
-                      selectAll: true,
-                    ),
-                    decoration: InputDecoration.collapsed(
-                      hintText: "Type here. . .",
-                    ),
-                  ),
-                ),
-              )
-            : Expanded(
-                child: MarkdownParse(
-                  key: ValueKey<String>("zmarkdownparse"),
-                  data: _internalController.text,
-                ),
-              ),
-
-        // show toolbar
-        if (widget.enableToolBar && !widget.readOnly)
-          MarkdownToolbar(
-            key: ValueKey<String>("zmarkdowntoolbar"),
-            controller: _internalController,
-            isPreview: _isPreview,
-            autoCloseAfterSelectEmoji: widget.autoCloseAfterSelectEmoji,
-            onPreviewChanged: () {
-              _isPreview = _isPreview ? false : true;
-              setState(() {});
-            },
-            focusNode: _internalFocus,
-            emojiConvert: widget.emojiConvert,
+    return Expanded(
+      child: Padding(
+        padding: padding,
+        child: TextField(
+          key: ValueKey<String>("zmarkdowneditor"),
+          maxLines: null,
+          focusNode: focusNode,
+          controller: controller,
+          scrollController: scrollController,
+          onChanged: _onEditorChange,
+          onTap: onTap,
+          autocorrect: false,
+          keyboardType: TextInputType.multiline,
+          textCapitalization: textCapitalization,
+          readOnly: readOnly,
+          cursorColor: cursorColor,
+          style: style,
+          inputFormatters: [
+            if (emojiConvert) EmojiInputFormatter(),
+          ],
+          toolbarOptions: ToolbarOptions(
+            copy: true,
+            paste: true,
+            cut: true,
+            selectAll: true,
           ),
-      ],
+          decoration: InputDecoration.collapsed(
+            hintText: "Type here. . .",
+          ),
+        ),
+      ),
     );
   }
 
   // on field change
   void _onEditorChange(String value) {
-    widget.onChanged?.call(value);
-  }
-
-  @override
-  void dispose() {
-    widget.scrollController?.dispose();
-    _internalController.dispose();
-    widget.controller?.dispose();
-    _internalFocus.dispose();
-    super.dispose();
+    onChanged?.call(value);
   }
 }

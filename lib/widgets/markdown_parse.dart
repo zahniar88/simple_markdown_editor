@@ -5,18 +5,14 @@ import 'package:markdown/markdown.dart' as md;
 import '../src/markdown_syntax.dart';
 import 'image_network.dart';
 
-typedef ZMarkdownTapTagCallback = void Function(
+typedef MarkdownTapTagCallback = void Function(
   String name,
   String fullText,
 );
 
-class ZMarkdownParse extends StatelessWidget {
+class MarkdownParse extends StatelessWidget {
   /// Creates a scrolling widget that parses and displays Markdown.
-  @Deprecated(
-    "You can change it to MarkdownParse. "
-    "This widget will not be continued and may be removed in the next update.",
-  )
-  ZMarkdownParse({
+  MarkdownParse({
     Key? key,
     required this.data,
     this.onTapLink,
@@ -43,10 +39,10 @@ class ZMarkdownParse extends StatelessWidget {
   final MarkdownTapLinkCallback? onTapLink;
 
   /// Called when the user taps a hashtag.
-  final ZMarkdownTapTagCallback? onTapHastag;
+  final MarkdownTapTagCallback? onTapHastag;
 
   /// Called when the user taps a mention.
-  final ZMarkdownTapTagCallback? onTapMention;
+  final MarkdownTapTagCallback? onTapMention;
 
   /// How the scroll view should respond to user input.
   ///

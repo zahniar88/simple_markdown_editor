@@ -32,3 +32,8 @@
 ## 0.1.4+2
 
 * bug fixing
+
+## 0.1.5
+
+* add checkbox list toolbar
+* deprecated (ZMarkdownEditor, ZMarkdownParse, ZMarkdownToolbar)

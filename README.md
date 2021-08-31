@@ -15,7 +15,8 @@ For demo video, you can see it at this url [Demo](https://youtu.be/aYBeXXDoNPo)
 ## Features
 - [x] Convert to Bold, Italic, Strikethrough
 - [x] Convert to Code, Quote, Links
-- [x] Convert to Heading (only h2) and Links
+- [x] Convert to Heading (only h2)
+- [x] Convert to unorder list and checkbox list
 - [x] Support multiline convert
 - [x] Support auto convert emoji
 
@@ -49,11 +50,18 @@ FocusNode _focusNode = FocusNode();
 Show widget for editor
 
 ```dart
-ZMarkdownEditor(
+// editable text with toolbar
+MarkdownFormField(
     controller: _controller,
     enableToolBar: true,
     emojiConvert: true,
     autoCloseAfterSelectEmoji: false,
+)
+
+// editable text without toolbar
+MarkdownField(
+    controller: _controller,
+    emojiConvert: true,
 )
 ```
 
@@ -68,13 +76,13 @@ String data = '''
 @mention
 '''
 
-ZMarkdownParse(
+MarkdownParse(
     data: data,
-    onTapHastag: (String name, String? match) {
+    onTapHastag: (String name, String match) {
         // name => hashtag
         // match => #hashtag
     },
-    onTapMention: (String name, String? match) {
+    onTapMention: (String name, String match) {
         // name => mention
         // match => #mention
     },
@@ -83,6 +91,6 @@ ZMarkdownParse(
 
 Result Editor:
 
-![](pictures/screenshoot.png)
+<img src="https://i.ibb.co/fGNpBDH/screenshoot.png" alt="screenshoot" width="200" />
 
 ___
