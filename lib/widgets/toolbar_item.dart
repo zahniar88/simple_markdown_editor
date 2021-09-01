@@ -21,23 +21,26 @@ class ToolbarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return !isExpandable
-        ? IconButton(
-            onPressed: onPressedButton,
-            splashColor: Colors.teal.withOpacity(0.4),
-            highlightColor: Colors.teal.withOpacity(0.4),
-            icon: icon is String
-                ? Text(
-                    icon,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w900,
+        ? Material(
+            type: MaterialType.transparency,
+            child: IconButton(
+              onPressed: onPressedButton,
+              splashColor: Colors.teal.withOpacity(0.4),
+              highlightColor: Colors.teal.withOpacity(0.4),
+              icon: icon is String
+                  ? Text(
+                      icon,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    )
+                  : Icon(
+                      icon,
+                      size: 16,
                     ),
-                  )
-                : Icon(
-                    icon,
-                    size: 16,
-                  ),
-            tooltip: tooltip,
+              tooltip: tooltip,
+            ),
           )
         : ExpandableNotifier(
             child: Expandable(

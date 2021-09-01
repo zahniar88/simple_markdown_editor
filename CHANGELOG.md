@@ -1,21 +1,22 @@
-## 0.1.0
+## 0.1.5+1
 
-* TODO: Describe initial release.
+* bug fix
+* remove deprecated (ZMarkdownEditor, ZMarkdownParse, ZMarkdownToolbar)
 
-## 0.1.1
+## 0.1.5
 
-* support emoji convert in live editor
-* null safety
+* add checkbox list toolbar
+* deprecated (ZMarkdownEditor, ZMarkdownParse, ZMarkdownToolbar)
+* add toolbar item single line selection
+* toolbar heading add (H1, H2, H3)
 
-## 0.1.2
+## 0.1.4+2
 
-* change toolbar position on bottom
+* bug fixing
 
-## 0.1.3
+## 0.1.4+1
 
-* bug fixing on 0.1.2 emojiConvert
-* add search fitur on emoji
-* added auto close property after selecting emoji
+* major update
 
 ## 0.1.4
 
@@ -25,17 +26,21 @@
 * refactor some repetitive code
 * fix emoji auto convert issue
 
-## 0.1.4+1
+## 0.1.3
 
-* major update
+* bug fixing on 0.1.2 emojiConvert
+* add search fitur on emoji
+* added auto close property after selecting emoji
 
-## 0.1.4+2
+## 0.1.2
 
-* bug fixing
+* change toolbar position on bottom
 
-## 0.1.5
+## 0.1.1
 
-* add checkbox list toolbar
-* deprecated (ZMarkdownEditor, ZMarkdownParse, ZMarkdownToolbar)
-* add toolbar item single line selection
-* toolbar heading add (H1, H2, H3)
+* support emoji convert in live editor
+* null safety
+
+## 0.1.0
+
+* TODO: Describe initial release.

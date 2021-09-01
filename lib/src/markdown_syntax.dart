@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:simple_markdown_editor/widgets/z_markdown_parse.dart';
+import 'package:simple_markdown_editor/widgets/markdown_parse.dart';
 import 'package:markdown/markdown.dart' as md;
 
 // Colored hastag syntax
@@ -18,7 +18,7 @@ class ColoredHastagSyntax extends md.InlineSyntax {
 
 // hastag element builder
 class ColoredHastagElementBuilder extends MarkdownElementBuilder {
-  final ZMarkdownTapTagCallback? onTapHastag;
+  final MarkdownTapTagCallback? onTapHastag;
 
   ColoredHastagElementBuilder(this.onTapHastag);
 
@@ -64,7 +64,7 @@ class ColoredMentionSyntax extends md.InlineSyntax {
 
 // mention element builder
 class ColoredMentionElementBuilder extends MarkdownElementBuilder {
-  final ZMarkdownTapTagCallback? onTapHastag;
+  final MarkdownTapTagCallback? onTapHastag;
 
   ColoredMentionElementBuilder(this.onTapHastag);
 
