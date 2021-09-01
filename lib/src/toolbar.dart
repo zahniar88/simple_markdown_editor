@@ -137,7 +137,7 @@ class Toolbar {
 
   void selectSingleLine() {
     var currentPosition = controller.selection;
-    if (currentPosition.baseOffset < 0 && currentPosition.extentOffset < 0) {
+    if (!currentPosition.isValid) {
       currentPosition = currentPosition.copyWith(
         baseOffset: 0,
         extentOffset: 0,
