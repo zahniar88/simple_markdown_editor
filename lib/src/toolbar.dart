@@ -136,7 +136,13 @@ class Toolbar {
   }
 
   void selectSingleLine() {
-    final currentPosition = controller.selection;
+    var currentPosition = controller.selection;
+    if (currentPosition.baseOffset < 0 && currentPosition.extentOffset < 0) {
+      currentPosition = currentPosition.copyWith(
+        baseOffset: 0,
+        extentOffset: 0,
+      );
+    }
     var textBefore = currentPosition.textBefore(controller.text);
     var textAfter = currentPosition.textAfter(controller.text);
 

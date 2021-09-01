@@ -29,7 +29,7 @@ class ToolbarItem extends StatelessWidget {
                 ? Text(
                     icon,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                       fontWeight: FontWeight.w900,
                     ),
                   )
@@ -49,7 +49,7 @@ class ToolbarItem extends StatelessWidget {
                       ? Text(
                           icon,
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 14,
                             fontWeight: FontWeight.w900,
                           ),
                         )
@@ -59,22 +59,26 @@ class ToolbarItem extends StatelessWidget {
                         ),
                 ),
               ),
-              expanded: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: NeverScrollableScrollPhysics(),
-                child: Row(
-                  children: [
-                    for (var item in items!) item,
-                    ExpandableButton(
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          FontAwesomeIcons.solidTimesCircle,
-                          size: 16,
+              expanded: Container(
+                color: Colors.white,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: NeverScrollableScrollPhysics(),
+                  child: Row(
+                    children: [
+                      for (var item in items!) item,
+                      ExpandableButton(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            FontAwesomeIcons.solidTimesCircle,
+                            size: 16,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

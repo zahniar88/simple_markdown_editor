@@ -31,7 +31,7 @@ class MarkdownToolbar extends StatelessWidget {
     return Container(
       color: Colors.grey[200],
       width: double.infinity,
-      height: 70,
+      height: 45,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
