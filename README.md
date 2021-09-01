@@ -91,6 +91,6 @@ MarkdownParse(
 
 Result Editor:
 
-<img src="https://i.ibb.co/fGNpBDH/screenshoot.png" alt="screenshoot" width="200" />
+<img src="https://i.ibb.co/3FPFxCM/Simulator-Screen-Recording-i-Phone-12-Pro-Max-2021-09-01-at-22-53-01.gif" alt="screenshoot" width="300" />
 
 ___

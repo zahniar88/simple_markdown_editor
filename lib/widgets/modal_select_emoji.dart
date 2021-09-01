@@ -174,7 +174,7 @@ class _ModalSelectEmojiState extends State<ModalSelectEmoji> {
       height: MediaQuery.of(context).size.height * 0.45,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 9,
+          crossAxisCount: 8,
         ),
         itemCount: _emoticons
             .where((element) =>
