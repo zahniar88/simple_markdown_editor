@@ -27,7 +27,7 @@ class Toolbar {
 
   // get selection text pffset
   TextSelection getSelection(TextSelection selection) {
-    return selection.baseOffset < 0 || selection.extentOffset < 0
+    return !selection.isValid
         ? selection.copyWith(
             baseOffset: controller.text.length,
             extentOffset: controller.text.length,
