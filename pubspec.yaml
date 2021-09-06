@@ -1,7 +1,7 @@
 name: simple_markdown_editor
 description: A TextField Widget that allow you to convert easily what's in the
   TextField to Markdown.
-version: 0.1.5+1
+version: 0.1.6
 homepage: https://github.com/zahniar88/simple_markdown_editor
 repository: https://github.com/zahniar88/simple_markdown_editor
 
@@ -13,7 +13,7 @@ dependencies:
   expandable: ^5.0.1
   flutter:
     sdk: flutter
-  flutter_markdown: ^0.6.5
+  flutter_markdown: ^0.6.6
   font_awesome_flutter: ^9.1.0
   markdown: ^4.0.0
 

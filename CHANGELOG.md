@@ -1,3 +1,6 @@
+## 0.1.6
+* update dependency flutter_markdown
+
 ## 0.1.5+1
 
 * bug fix
