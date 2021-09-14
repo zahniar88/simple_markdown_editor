@@ -113,7 +113,20 @@ class MarkdownParse extends StatelessWidget {
       controller: controller,
       shrinkWrap: shrinkWrap,
       syntaxHighlighter: syntaxHighlighter,
-      bulletBuilder: bulletBuilder,
+      bulletBuilder: bulletBuilder != null
+          ? bulletBuilder
+          : (int number, BulletStyle style) {
+              double? fontSize =
+                  Theme.of(context).textTheme.bodyText2?.fontSize;
+              return Text(
+                "◉",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: (fontSize != null) ? fontSize + 2 : fontSize,
+                ),
+              );
+            },
       styleSheetTheme: styleSheetTheme,
       extensionSet: md.ExtensionSet(
         md.ExtensionSet.gitHubFlavored.blockSyntaxes,
@@ -174,7 +187,7 @@ class MarkdownParse extends StatelessWidget {
                 size: checkboxIconSize != null
                     ? checkboxIconSize
                     : Theme.of(context).textTheme.bodyText2?.fontSize,
-                color: value ? Colors.grey[700] : Colors.grey,
+                color: value ? Colors.blue[600] : Colors.grey,
               );
             },
     );
