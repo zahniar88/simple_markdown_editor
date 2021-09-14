@@ -6,7 +6,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/zahniar88/simple_markdown_editor?color=green)](https://github.com/zahniar88/simple_markdown_editor)
 [![undo](https://img.shields.io/pub/v/simple_markdown_editor.svg?color=teal)](https://pub.dev/packages/simple_markdown_editor)
 ![GitHub](https://img.shields.io/github/license/zahniar88/simple_markdown_editor?color=red)
-![GitHub repo size](https://img.shields.io/github/repo-size/zahniar88/simple_markdown_editor?label=size&color=brightgreen)
 
 
 Simple markdown editor library For flutter. 
