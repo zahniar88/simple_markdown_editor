@@ -1,7 +1,13 @@
+## 0.1.7
+
+* Compatibility.
+
 ## 0.1.6+1
+
 * change style of bullet list and checkbox color
 
 ## 0.1.6
+
 * update dependency flutter_markdown
 
 ## 0.1.5+1

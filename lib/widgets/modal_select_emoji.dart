@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../src/emoji_parser.dart';
 
 class ModalSelectEmoji extends StatefulWidget {
-  ModalSelectEmoji({
+  const ModalSelectEmoji({
     Key? key,
     this.onChanged,
     this.emojiConvert = true,
@@ -109,24 +109,24 @@ class _ModalSelectEmojiState extends State<ModalSelectEmoji> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(30),
+      padding: const EdgeInsets.all(30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
+          const Text(
             "Emoticons",
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 15,
               horizontal: 20,
             ),
@@ -136,14 +136,14 @@ class _ModalSelectEmojiState extends State<ModalSelectEmoji> {
             ),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   FontAwesomeIcons.search,
                   size: 17,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: TextField(
-                    decoration: InputDecoration.collapsed(
+                    decoration: const InputDecoration.collapsed(
                       hintText: "Find emoji",
                     ),
                     onChanged: (String value) {
@@ -155,7 +155,7 @@ class _ModalSelectEmojiState extends State<ModalSelectEmoji> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -170,10 +170,10 @@ class _ModalSelectEmojiState extends State<ModalSelectEmoji> {
   }
 
   Widget _listEmots(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.45,
       child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 8,
         ),
         itemCount: _emoticons
@@ -195,7 +195,7 @@ class _ModalSelectEmojiState extends State<ModalSelectEmoji> {
             },
             child: Text(
               _parser.emojify(emot),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24,
               ),
             ),

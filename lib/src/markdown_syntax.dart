@@ -32,8 +32,8 @@ class ColoredHastagElementBuilder extends MarkdownElementBuilder {
         );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-        margin: EdgeInsets.only(right: 5),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+        margin: const EdgeInsets.only(right: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(2),
           color: Colors.blue.withOpacity(0.1),

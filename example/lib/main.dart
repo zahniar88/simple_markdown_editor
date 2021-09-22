@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simple_markdown_editor/simple_markdown_editor.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void dispose() {
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Markdown Editor"),
+        title: const Text("Markdown Editor"),
         actions: [
           IconButton(
             onPressed: () {
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-            icon: Icon(Icons.view_compact),
+            icon: const Icon(Icons.view_compact),
           ),
         ],
       ),
@@ -81,7 +81,7 @@ class SecondScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Markdown Parse"),
+        title: const Text("Markdown Parse"),
       ),
       body: MarkdownParse(
         data: data,

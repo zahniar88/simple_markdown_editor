@@ -33,7 +33,7 @@ class ImageNetworkMarkdown extends StatelessWidget {
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Icon(FontAwesomeIcons.exclamationTriangle),
             SizedBox(height: 20),
             Text(

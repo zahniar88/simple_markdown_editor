@@ -147,7 +147,7 @@ class _MarkdownFormFieldState extends State<MarkdownFormField> {
                   ? _editor()
                   : Expanded(
                       child: MarkdownParse(
-                        key: ValueKey<String>("zmarkdownparse"),
+                        key: const ValueKey<String>("zmarkdownparse"),
                         data: _internalController.text,
                       ),
                     ),
@@ -155,7 +155,7 @@ class _MarkdownFormFieldState extends State<MarkdownFormField> {
               // show toolbar
               if (!widget.readOnly)
                 MarkdownToolbar(
-                  key: ValueKey<String>("zmarkdowntoolbar"),
+                  key: const ValueKey<String>("zmarkdowntoolbar"),
                   controller: _internalController,
                   isPreview: _isPreview,
                   autoCloseAfterSelectEmoji: widget.autoCloseAfterSelectEmoji,

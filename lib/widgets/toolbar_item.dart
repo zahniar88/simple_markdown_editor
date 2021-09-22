@@ -30,7 +30,7 @@ class ToolbarItem extends StatelessWidget {
               icon: icon is String
                   ? Text(
                       icon,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w900,
                       ),
@@ -44,14 +44,14 @@ class ToolbarItem extends StatelessWidget {
           )
         : ExpandableNotifier(
             child: Expandable(
-              key: Key("list_button"),
+              key: const Key("list_button"),
               collapsed: ExpandableButton(
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: icon is String
                       ? Text(
                           icon,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w900,
                           ),
@@ -66,12 +66,12 @@ class ToolbarItem extends StatelessWidget {
                 color: Colors.white,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   child: Row(
                     children: [
                       for (var item in items!) item,
                       ExpandableButton(
-                        child: Padding(
+                        child: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Icon(
                             FontAwesomeIcons.solidTimesCircle,

@@ -12,7 +12,7 @@ typedef MarkdownTapTagCallback = void Function(
 
 class MarkdownParse extends StatelessWidget {
   /// Creates a scrolling widget that parses and displays Markdown.
-  MarkdownParse({
+  const MarkdownParse({
     Key? key,
     required this.data,
     this.onTapLink,
@@ -105,28 +105,26 @@ class MarkdownParse extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Markdown(
-      key: Key("defaultmarkdownformatter"),
+      key: const Key("defaultmarkdownformatter"),
       data: data,
       selectable: true,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       physics: physics,
       controller: controller,
       shrinkWrap: shrinkWrap,
       syntaxHighlighter: syntaxHighlighter,
-      bulletBuilder: bulletBuilder != null
-          ? bulletBuilder
-          : (int number, BulletStyle style) {
-              double? fontSize =
-                  Theme.of(context).textTheme.bodyText2?.fontSize;
-              return Text(
-                "◉",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: (fontSize != null) ? fontSize + 2 : fontSize,
-                ),
-              );
-            },
+      bulletBuilder: bulletBuilder ??
+          (int number, BulletStyle style) {
+            double? fontSize = Theme.of(context).textTheme.bodyText2?.fontSize;
+            return Text(
+              "◉",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: (fontSize != null) ? fontSize + 2 : fontSize,
+              ),
+            );
+          },
       styleSheetTheme: styleSheetTheme,
       extensionSet: md.ExtensionSet(
         md.ExtensionSet.gitHubFlavored.blockSyntaxes,
@@ -137,7 +135,7 @@ class MarkdownParse extends StatelessWidget {
         ],
       ),
       blockSyntaxes: [
-        md.FencedCodeBlockSyntax(),
+        const md.FencedCodeBlockSyntax(),
         if (blockSyntaxes != null) ...blockSyntaxes!
       ],
       inlineSyntaxes: [
@@ -150,46 +148,42 @@ class MarkdownParse extends StatelessWidget {
         "mention": ColoredMentionElementBuilder(onTapMention),
         ...builders
       },
-      styleSheet: styleSheet != null
-          ? styleSheet
-          : MarkdownStyleSheet(
-              code: TextStyle(
-                color: Colors.purple,
-              ),
-              blockquoteDecoration: BoxDecoration(
-                color: Colors.grey[200],
-                border: Border(
-                  left: BorderSide(
-                    color: Colors.grey,
-                    width: 5,
-                  ),
+      styleSheet: styleSheet ??
+          MarkdownStyleSheet(
+            code: const TextStyle(
+              color: Colors.purple,
+            ),
+            blockquoteDecoration: BoxDecoration(
+              color: Colors.grey[200],
+              border: const Border(
+                left: BorderSide(
+                  color: Colors.grey,
+                  width: 5,
                 ),
               ),
-              blockquotePadding:
-                  EdgeInsets.symmetric(vertical: 15, horizontal: 25),
             ),
+            blockquotePadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          ),
       onTapLink: onTapLink,
-      imageBuilder: imageBuilder != null
-          ? imageBuilder
-          : (Uri uri, String? title, String? alt) {
-              return ImageNetworkMarkdown(
-                uri: uri.toString(),
-                title: title,
-              );
-            },
-      checkboxBuilder: checkboxBuilder != null
-          ? checkboxBuilder
-          : (bool value) {
-              return Icon(
-                value
-                    ? FontAwesomeIcons.solidCheckSquare
-                    : FontAwesomeIcons.square,
-                size: checkboxIconSize != null
-                    ? checkboxIconSize
-                    : Theme.of(context).textTheme.bodyText2?.fontSize,
-                color: value ? Colors.blue[600] : Colors.grey,
-              );
-            },
+      imageBuilder: imageBuilder ??
+          (Uri uri, String? title, String? alt) {
+            return ImageNetworkMarkdown(
+              uri: uri.toString(),
+              title: title,
+            );
+          },
+      checkboxBuilder: checkboxBuilder ??
+          (bool value) {
+            return Icon(
+              value
+                  ? FontAwesomeIcons.solidCheckSquare
+                  : FontAwesomeIcons.square,
+              size: checkboxIconSize ??
+                  Theme.of(context).textTheme.bodyText2?.fontSize,
+              color: value ? Colors.blue[600] : Colors.grey,
+            );
+          },
     );
   }
 }

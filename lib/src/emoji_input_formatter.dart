@@ -7,18 +7,18 @@ class EmojiInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
-    TextEditingValue currentValue,
+    TextEditingValue newValue,
   ) {
-    var currentPosition = currentValue.selection;
+    var currentPosition = newValue.selection;
 
-    final newValue = currentValue.text.replaceAllMapped(
+    final resultValue = newValue.text.replaceAllMapped(
       RegExp(r'\:[^\s]+\:'),
       (match) {
         if (_emojiParser.hasName(match[0]!)) {
           final convert = _emojiParser.emojify(match[0]!);
           final resetOffset = match[0]!.length - convert.length;
           final lastPositionOnMatch =
-              currentValue.text.indexOf(match[0]!) + match[0]!.length;
+              newValue.text.indexOf(match[0]!) + match[0]!.length;
           var minusOffset = 0;
 
           if ((currentPosition.baseOffset - lastPositionOnMatch) < 0) {
@@ -38,7 +38,7 @@ class EmojiInputFormatter extends TextInputFormatter {
     );
 
     return TextEditingValue(
-      text: newValue,
+      text: resultValue,
       selection: currentPosition,
     );
   }

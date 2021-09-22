@@ -47,8 +47,7 @@ class Toolbar {
 
     // default parameter
     final currentTextValue = controller.value.text;
-    var selection =
-        textSelection != null ? textSelection : controller.selection;
+    var selection = textSelection ?? controller.selection;
     selection = getSelection(selection);
 
     final middle = selection.textInside(currentTextValue);

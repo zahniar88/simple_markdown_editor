@@ -19,13 +19,13 @@ class ModalInputUrl extends StatelessWidget {
       margin: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
-      padding: EdgeInsets.all(30),
+      padding: const EdgeInsets.all(30),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
+          const Text(
             "Please provide a URL here.",
             style: TextStyle(
               fontSize: 18,
@@ -33,8 +33,8 @@ class ModalInputUrl extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 10, bottom: 15),
-            padding: EdgeInsets.symmetric(
+            margin: const EdgeInsets.only(top: 10, bottom: 15),
+            padding: const EdgeInsets.symmetric(
               vertical: 15,
               horizontal: 15,
             ),
@@ -45,11 +45,11 @@ class ModalInputUrl extends StatelessWidget {
             child: TextField(
               autocorrect: false,
               autofocus: true,
-              cursorRadius: Radius.circular(20),
-              decoration: InputDecoration.collapsed(
+              cursorRadius: const Radius.circular(20),
+              decoration: const InputDecoration.collapsed(
                 hintText: "Input your url.",
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
               ),
               enableInteractiveSelection: true,
@@ -60,14 +60,14 @@ class ModalInputUrl extends StatelessWidget {
                 if (value.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
+                      content: const Text(
                         "Please input url",
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                       backgroundColor: Colors.red.withOpacity(0.8),
-                      duration: Duration(milliseconds: 700),
+                      duration: const Duration(milliseconds: 700),
                     ),
                   );
                 } else {
@@ -83,7 +83,7 @@ class ModalInputUrl extends StatelessWidget {
               },
             ),
           ),
-          Text(
+          const Text(
             "example: https://example.com",
             style: TextStyle(
               fontSize: 12,

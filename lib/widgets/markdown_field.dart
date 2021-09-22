@@ -110,7 +110,7 @@ class MarkdownField extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: TextField(
-          key: ValueKey<String>("zmarkdowneditor"),
+          key: const ValueKey<String>("zmarkdowneditor"),
           maxLines: null,
           focusNode: focusNode,
           controller: controller,
@@ -126,13 +126,13 @@ class MarkdownField extends StatelessWidget {
           inputFormatters: [
             if (emojiConvert) EmojiInputFormatter(),
           ],
-          toolbarOptions: ToolbarOptions(
+          toolbarOptions: const ToolbarOptions(
             copy: true,
             paste: true,
             cut: true,
             selectAll: true,
           ),
-          decoration: InputDecoration.collapsed(
+          decoration: const InputDecoration.collapsed(
             hintText: "Type here. . .",
           ),
         ),
