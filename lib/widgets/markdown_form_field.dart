@@ -185,13 +185,4 @@ class _MarkdownFormFieldState extends State<MarkdownFormField> {
       padding: widget.padding,
     );
   }
-
-  @override
-  void dispose() {
-    widget.scrollController?.dispose();
-    _internalController.dispose();
-    widget.controller?.dispose();
-    _internalFocus.dispose();
-    super.dispose();
-  }
 }

@@ -17,14 +17,43 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Home Screen"),
+      ),
+      body: Center(
+        child: MaterialButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const EditorScreen()));
+          },
+          color: Colors.blue,
+          child: const Text(
+            "Editor Screen",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+// HomeScreen Editor
+class EditorScreen extends StatefulWidget {
+  const EditorScreen({Key? key}) : super(key: key);
+
+  @override
+  _EditorScreenState createState() => _EditorScreenState();
+}
+
+class _EditorScreenState extends State<EditorScreen> {
   final TextEditingController _controller = TextEditingController();
 
   @override

@@ -1,3 +1,7 @@
+## 0.1.8
+
+* Bug fixed on issue [#2](https://github.com/zahniar88/simple_markdown_editor/issues/2).
+
 ## 0.1.7
 
 * Compatibility.
