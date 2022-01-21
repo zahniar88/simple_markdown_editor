@@ -15,8 +15,9 @@ class ToolbarResult {
 class Toolbar {
   final TextEditingController controller;
   final FocusNode focusNode;
+  final ValueChanged<bool> isEditorFocused;
 
-  Toolbar({required this.controller, required this.focusNode});
+  Toolbar({required this.controller, required this.focusNode, required this.isEditorFocused});
 
   // check if have selection text
   bool checkHasSelection() {
@@ -42,6 +43,7 @@ class Toolbar {
     TextSelection? textSelection,
   }) {
     if (!focusNode.hasFocus) {
+      isEditorFocused.call(true);
       focusNode.requestFocus();
     }
 

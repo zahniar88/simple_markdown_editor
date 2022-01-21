@@ -11,6 +11,10 @@
 Simple markdown editor library For flutter. 
 For demo video, you can see it at this url [Demo](https://youtu.be/aYBeXXDoNPo)
 
+## What's new (21/01/2022)
+
+* Auto preview if the editor unfocused, request from issue [#2](https://github.com/zahniar88/simple_markdown_editor/issues/2)
+
 ## Features
 - [x] Convert to Bold, Italic, Strikethrough
 - [x] Convert to Code, Quote, Links
@@ -87,8 +91,5 @@ MarkdownParse(
 )
 ```
 
-Result Editor:
-
-<img src="https://i.ibb.co/3FPFxCM/Simulator-Screen-Recording-i-Phone-12-Pro-Max-2021-09-01-at-22-53-01.gif" alt="screenshoot" width="300" />
 
 ___

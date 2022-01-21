@@ -123,9 +123,9 @@ class MarkdownFormField extends StatefulWidget {
 
 class _MarkdownFormFieldState extends State<MarkdownFormField> {
   // internal parameter
-  late bool _isPreview;
   late TextEditingController _internalController;
   late FocusNode _internalFocus;
+  bool _focused = false;
 
   @override
   void initState() {
@@ -133,34 +133,59 @@ class _MarkdownFormFieldState extends State<MarkdownFormField> {
         ? widget.controller!
         : TextEditingController();
     _internalFocus = widget.focusNode != null ? widget.focusNode! : FocusNode();
-    _isPreview = false;
+    _internalFocus.addListener(() => _requestFocused());
     super.initState();
+  }
+
+  void _requestFocused() {
+    if (_internalFocus.hasFocus) {
+      _focused = true;
+    } else {
+      _focused = false;
+    }
+
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    return _focused
+        ? _editorOnFocused()
+        : GestureDetector(
+            onTap: () {
+              _focused = true;
+              _internalFocus.requestFocus();
+              setState(() {});
+            },
+            child: MarkdownParse(
+              key: const ValueKey<String>("zmarkdownparse"),
+              data: _internalController.text == ""
+                  ? "Type here. . ."
+                  : _internalController.text,
+            ),
+          );
+  }
+
+  Widget _editorOnFocused() {
     return !widget.enableToolBar
         ? _editor()
         : Column(
             children: [
-              !_isPreview
-                  ? _editor()
-                  : Expanded(
-                      child: MarkdownParse(
-                        key: const ValueKey<String>("zmarkdownparse"),
-                        data: _internalController.text,
-                      ),
-                    ),
+              _editor(),
 
               // show toolbar
               if (!widget.readOnly)
                 MarkdownToolbar(
                   key: const ValueKey<String>("zmarkdowntoolbar"),
                   controller: _internalController,
-                  isPreview: _isPreview,
                   autoCloseAfterSelectEmoji: widget.autoCloseAfterSelectEmoji,
+                  isEditorFocused: (bool status) {
+                    _focused = status;
+                    setState(() {});
+                  },
                   onPreviewChanged: () {
-                    _isPreview = _isPreview ? false : true;
+                    _focused = _focused ? false : true;
+                    FocusScope.of(context).unfocus();
                     setState(() {});
                   },
                   focusNode: _internalFocus,
