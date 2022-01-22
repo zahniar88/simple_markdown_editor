@@ -13,7 +13,7 @@ For demo video, you can see it at this url [Demo](https://youtu.be/aYBeXXDoNPo)
 
 ## What's new (21/01/2022)
 
-* Auto preview if the editor unfocused, request from issue [#2](https://github.com/zahniar88/simple_markdown_editor/issues/2)
+* Auto preview if editor unfocused, request from issue [#4](https://github.com/zahniar88/simple_markdown_editor/issues/4)
 
 ## Features
 - [x] Convert to Bold, Italic, Strikethrough
