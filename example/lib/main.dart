@@ -46,8 +46,10 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 10),
             MaterialButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const EditorTestPreviewUnfocused()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const EditorTestPreviewUnfocused()));
               },
               color: Colors.blue,
               child: const Text(
@@ -148,16 +150,17 @@ class SecondScreen extends StatelessWidget {
   }
 }
 
-
 // HomeScreen Editor
 class EditorTestPreviewUnfocused extends StatefulWidget {
   const EditorTestPreviewUnfocused({Key? key}) : super(key: key);
 
   @override
-  _EditorTestPreviewUnfocusedState createState() => _EditorTestPreviewUnfocusedState();
+  _EditorTestPreviewUnfocusedState createState() =>
+      _EditorTestPreviewUnfocusedState();
 }
 
-class _EditorTestPreviewUnfocusedState extends State<EditorTestPreviewUnfocused> {
+class _EditorTestPreviewUnfocusedState
+    extends State<EditorTestPreviewUnfocused> {
   final TextEditingController _controller = TextEditingController();
 
   @override

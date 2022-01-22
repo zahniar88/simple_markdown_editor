@@ -17,7 +17,10 @@ class Toolbar {
   final FocusNode focusNode;
   final ValueChanged<bool> isEditorFocused;
 
-  Toolbar({required this.controller, required this.focusNode, required this.isEditorFocused});
+  Toolbar(
+      {required this.controller,
+      required this.focusNode,
+      required this.isEditorFocused});
 
   // check if have selection text
   bool checkHasSelection() {

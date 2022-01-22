@@ -14,7 +14,11 @@ class MarkdownToolbar extends StatelessWidget {
     required this.focusNode,
     required this.isEditorFocused,
     this.autoCloseAfterSelectEmoji = true,
-  })  : toolbar = Toolbar(controller: controller, focusNode: focusNode, isEditorFocused: isEditorFocused,),
+  })  : toolbar = Toolbar(
+          controller: controller,
+          focusNode: focusNode,
+          isEditorFocused: isEditorFocused,
+        ),
         super(key: key);
 
   final VoidCallback onPreviewChanged;
