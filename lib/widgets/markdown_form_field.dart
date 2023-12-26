@@ -10,6 +10,7 @@ class MarkdownFormField extends StatefulWidget {
     this.scrollController,
     this.onChanged,
     this.style,
+    this.hintText  = "Type here. . .",
     this.emojiConvert = false,
     this.onTap,
     this.enableToolBar = false,
@@ -20,6 +21,10 @@ class MarkdownFormField extends StatefulWidget {
     this.focusNode,
     this.padding = const EdgeInsets.all(10),
   }) : super(key: key);
+
+
+  // Set a hint text to guide users on what to enter
+  final String hintText;
 
   /// For enable toolbar options
   ///
@@ -160,7 +165,7 @@ class _MarkdownFormFieldState extends State<MarkdownFormField> {
             child: MarkdownParse(
               key: const ValueKey<String>("zmarkdownparse"),
               data: _internalController.text == ""
-                  ? "Type here. . ."
+                  ? widget.hintText
                   : _internalController.text,
             ),
           );
