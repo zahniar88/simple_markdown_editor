@@ -114,8 +114,8 @@ class MarkdownParse extends StatelessWidget {
       shrinkWrap: shrinkWrap,
       syntaxHighlighter: syntaxHighlighter,
       bulletBuilder: bulletBuilder ??
-          (int number, BulletStyle style) {
-            double? fontSize = Theme.of(context).textTheme.bodyText2?.fontSize;
+          (MarkdownBulletParameters params) {
+            double? fontSize = Theme.of(context).textTheme.bodyMedium?.fontSize;
             return Text(
               "◉",
               textAlign: TextAlign.center,
@@ -180,7 +180,7 @@ class MarkdownParse extends StatelessWidget {
                   ? FontAwesomeIcons.solidCheckSquare
                   : FontAwesomeIcons.square,
               size: checkboxIconSize ??
-                  Theme.of(context).textTheme.bodyText2?.fontSize,
+                  Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: value ? Colors.blue[600] : Colors.grey,
             );
           },
